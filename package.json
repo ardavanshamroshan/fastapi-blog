@@ -1,0 +1,12 @@
+{
+  "name": "blog",
+  "private": true,
+  "scripts": {
+    "dev": "tailwindcss -i ./static/css/input.css -o ./static/css/main.css --watch",
+    "build": "tailwindcss -i ./static/css/input.css -o ./static/css/main.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  }
+}

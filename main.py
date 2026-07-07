@@ -1,7 +1,12 @@
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi.exceptions import HTTPException
 
 app = FastAPI()
+app.mount(path='/static', app=StaticFiles(directory='static'), name='static')
+
+templates = Jinja2Templates(directory="templates")
 
 posts: list[dict] = [
     {
@@ -18,8 +23,8 @@ posts: list[dict] = [
         'author': 'Alex Smith',
         'title': 'My Second Post',
         'content': 'This is my second post',
-        'date_created': '2021-01-02',
-        'date_updated': '2021-01-02',
+        'date_created': '2021-01-02 11:40:21',
+        'date_updated': '2021-01-02 12:00:00',
         'tags': ['python', 'fastapi', 'blog'],
     },
 ]
@@ -31,13 +36,30 @@ posts: list[dict] = [
 """
 
 
-@app.get('/', response_class=HTMLResponse, include_in_schema=False)
-@app.get('/posts', response_class=HTMLResponse, include_in_schema=False)
-def home():
-    return f"<h1>{posts[0]['title']}</h1>"
+@app.get(path='/', include_in_schema=False, name='home.index')
+@app.get(path='/posts', include_in_schema=False, name='home.posts')
+def home(request: Request):
+    return templates.TemplateResponse(request=request, name="home.html", context={"posts": posts})
 
 
-@app.get('/api/posts')
+@app.get(path='/api/posts', name='posts.index')
 def get_posts():
     """FastAPI automatically serializes the response to JSON"""
     return posts
+
+
+@app.get(path='/api/posts/{post_id}', name='posts.show')
+def get_post(request: Request, post_id: int):
+    post = next(
+        (post for post in posts if post['id'] == post_id),
+        None
+    )
+
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    return templates.TemplateResponse(
+        request=request,
+        name="post.html",
+        context={"post": post},
+    )
