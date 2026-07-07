@@ -39,7 +39,7 @@
                     <span class="hidden sm:inline">Blog</span>
                 </a>
                 <nav class="hidden items-center gap-4 md:flex">
-                    <a class="nav-link nav-link-active" href="{{ url_for('posts.index') }}" aria-current="page">Posts</a>
+                    <a class="nav-link nav-link-active" href="{{ url_for('home.posts') }}" aria-current="page">Posts</a>
                     <a class="nav-link" href="#">About</a>
                 </nav>
             </div>
@@ -95,7 +95,7 @@
 
         <div id="navbar-menu" class="container-page hidden border-t pb-4 md:hidden">
             <nav class="flex flex-col gap-1 pt-4">
-                <a class="nav-link nav-link-active rounded-md px-3 py-2 hover:bg-accent" href="{{ url_for('posts.index') }}">Posts</a>
+                <a class="nav-link nav-link-active rounded-md px-3 py-2 hover:bg-accent" href="{{ url_for('home.posts') }}">Posts</a>
                 <a class="nav-link rounded-md px-3 py-2 hover:bg-accent" href="#">About</a>
                 <div class="separator separator-h my-2"></div>
                 <a class="nav-link rounded-md px-3 py-2 hover:bg-accent" href="#">Log in</a>
@@ -157,6 +157,6 @@
     </footer>
 
     <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-    <script src="/static/js/utils.js"></script>
+    <script src="{{ url_for('static', path='js/utils.js') }}"></script>
 </body>
 </html>

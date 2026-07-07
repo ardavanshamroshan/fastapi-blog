@@ -12,7 +12,7 @@
         <div class="avatar avatar-lg">
           <img
             class="avatar-image"
-            src="/static/profile_pics/default.jpg"
+            src="{{ url_for('static', path='profile_pics/default.jpg') }}"
             alt="{{ post.author }}"
             width="48"
             height="48"
