@@ -1,9 +1,11 @@
+import datetime
 from fastapi import FastAPI, Request, status
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.exceptions import HTTPException, RequestValidationError
 from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from schemas import PostCreate, PostResponse
 
 app = FastAPI()
 app.mount(path='/static', app=StaticFiles(directory='static'), name='static')
@@ -75,14 +77,15 @@ def show_post(request: Request, post_id: int):
 # API Routes
 
 
-@app.get(path='/api/posts', name='api.posts.index')
+@app.get(path='/api/posts', response_model=list[PostResponse], name='api.posts.index')
 def get_posts() -> list[dict]:
     """FastAPI automatically serializes the response to JSON"""
     return posts
 
 
-@app.post(path='/api/post/{{ post_id }}', name='api.posts.show')
+@app.get(path='/api/posts/{post_id}', response_model=PostResponse, name='api.posts.show')
 def get_post(post_id: int) -> dict:
+
     post = next(
         (post for post in posts if post['id'] == post_id),
         None
@@ -94,6 +97,28 @@ def get_post(post_id: int) -> dict:
         )
 
     return post
+
+
+@app.post(
+    path='/api/posts',
+    name='api.posts.create',
+    response_model=PostResponse,
+    status_code=status.HTTP_201_CREATED
+)
+def create_post(post: PostCreate):
+    new_id = max(post['id'] for post in posts) + 1 if posts else 1
+    now = datetime.datetime.today().isoformat()
+    new_post = {
+        'id': new_id,
+        'author': post.author,
+        'title': post.title,
+        'content': post.content,
+        'date_created': now,
+        'date_updated': now,
+    }
+
+    posts.append(new_post)
+    return new_post
 
 # Exception Handlers
 

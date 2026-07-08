@@ -1,0 +1,1626 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "main",
+      "community": 3,
+      "norm_label": "main.py"
+    },
+    {
+      "label": "home()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "main_home",
+      "community": 4,
+      "norm_label": "home()"
+    },
+    {
+      "label": "Request",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "request",
+      "community": 4,
+      "norm_label": "request"
+    },
+    {
+      "label": "show_post()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L58",
+      "_origin": "ast",
+      "id": "main_show_post",
+      "community": 4,
+      "norm_label": "show_post()"
+    },
+    {
+      "label": "get_posts()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "main_get_posts",
+      "community": 3,
+      "norm_label": "get_posts()"
+    },
+    {
+      "label": "get_post()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L87",
+      "_origin": "ast",
+      "id": "main_get_post",
+      "community": 3,
+      "norm_label": "get_post()"
+    },
+    {
+      "label": "create_post()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L108",
+      "_origin": "ast",
+      "id": "main_create_post",
+      "community": 3,
+      "norm_label": "create_post()"
+    },
+    {
+      "label": "general_exception_handler()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L127",
+      "_origin": "ast",
+      "id": "main_general_exception_handler",
+      "community": 4,
+      "norm_label": "general_exception_handler()"
+    },
+    {
+      "label": "StarletteHTTPException",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "starlettehttpexception",
+      "community": 4,
+      "norm_label": "starlettehttpexception"
+    },
+    {
+      "label": "JSONResponse",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "jsonresponse",
+      "community": 4,
+      "norm_label": "jsonresponse"
+    },
+    {
+      "label": "validation_exception_handler()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L155",
+      "_origin": "ast",
+      "id": "main_validation_exception_handler",
+      "community": 4,
+      "norm_label": "validation_exception_handler()"
+    },
+    {
+      "label": "RequestValidationError",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "requestvalidationerror",
+      "community": 4,
+      "norm_label": "requestvalidationerror"
+    },
+    {
+      "label": "FastAPI automatically serializes the response to JSON",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L82",
+      "_origin": "ast",
+      "id": "main_rationale_82",
+      "community": 3,
+      "norm_label": "fastapi automatically serializes the response to json"
+    },
+    {
+      "label": "The code to handle the exception and return the appropriate response for both AP",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L128",
+      "_origin": "ast",
+      "id": "main_rationale_128",
+      "community": 4,
+      "norm_label": "the code to handle the exception and return the appropriate response for both ap"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "package",
+      "community": 5,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "package_name",
+      "community": 5,
+      "norm_label": "name"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "package_private",
+      "community": 5,
+      "norm_label": "private"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "package_scripts",
+      "community": 5,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "package_scripts_dev",
+      "community": 5,
+      "norm_label": "dev"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "package_scripts_build",
+      "community": 5,
+      "norm_label": "build"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "package_devdependencies",
+      "community": 5,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@tailwindcss/cli",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "package_devdependencies_tailwindcss_cli",
+      "community": 5,
+      "norm_label": "@tailwindcss/cli"
+    },
+    {
+      "label": "tailwindcss",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "package_devdependencies_tailwindcss",
+      "community": 5,
+      "norm_label": "tailwindcss"
+    },
+    {
+      "label": "blog",
+      "file_type": "code",
+      "type": "package",
+      "ecosystem": "python",
+      "source_file": "pyproject.toml",
+      "source_location": "L1",
+      "version": "0.1.0",
+      "_origin": "ast",
+      "id": "pkg_blog",
+      "community": 7,
+      "norm_label": "blog"
+    },
+    {
+      "label": "schemas.py",
+      "file_type": "code",
+      "source_file": "schemas.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "schemas",
+      "community": 3,
+      "norm_label": "schemas.py"
+    },
+    {
+      "label": "PostBase",
+      "file_type": "code",
+      "source_file": "schemas.py",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "schemas_postbase",
+      "community": 3,
+      "norm_label": "postbase"
+    },
+    {
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "basemodel",
+      "community": 3,
+      "norm_label": "basemodel"
+    },
+    {
+      "label": "PostCreate",
+      "file_type": "code",
+      "source_file": "schemas.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "schemas_postcreate",
+      "community": 3,
+      "norm_label": "postcreate"
+    },
+    {
+      "label": "PostResponse",
+      "file_type": "code",
+      "source_file": "schemas.py",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "schemas_postresponse",
+      "community": 3,
+      "norm_label": "postresponse"
+    },
+    {
+      "label": "Base model for a post. without default values means they are required.",
+      "file_type": "rationale",
+      "source_file": "schemas.py",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "schemas_rationale_5",
+      "community": 3,
+      "norm_label": "base model for a post. without default values means they are required."
+    },
+    {
+      "label": "Response model for a post. ConfigDict is used to convert the model to a dictiona",
+      "file_type": "rationale",
+      "source_file": "schemas.py",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "schemas_rationale_16",
+      "community": 3,
+      "norm_label": "response model for a post. configdict is used to convert the model to a dictiona"
+    },
+    {
+      "label": "utils.js",
+      "file_type": "code",
+      "source_file": "static/js/utils.js",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "js_utils",
+      "community": 6,
+      "norm_label": "utils.js"
+    },
+    {
+      "label": "initTheme()",
+      "file_type": "code",
+      "source_file": "static/js/utils.js",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "js_utils_inittheme",
+      "community": 6,
+      "norm_label": "inittheme()"
+    },
+    {
+      "label": "initMobileNav()",
+      "file_type": "code",
+      "source_file": "static/js/utils.js",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "js_utils_initmobilenav",
+      "community": 6,
+      "norm_label": "initmobilenav()"
+    },
+    {
+      "label": "initThemeMenu()",
+      "file_type": "code",
+      "source_file": "static/js/utils.js",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "js_utils_initthememenu",
+      "community": 6,
+      "norm_label": "initthememenu()"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "readme",
+      "community": 0,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Blog \u2014 FastAPI Tutorial",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "readme_blog_fastapi_tutorial",
+      "community": 0,
+      "norm_label": "blog \u2014 fastapi tutorial"
+    },
+    {
+      "label": "Part 1 \u2014 Getting Started",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "readme_part_1_getting_started",
+      "community": 0,
+      "norm_label": "part 1 \u2014 getting started"
+    },
+    {
+      "label": "Prerequisites",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "readme_prerequisites",
+      "community": 0,
+      "norm_label": "prerequisites"
+    },
+    {
+      "label": "Step 1 \u2014 Create the project",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "readme_step_1_create_the_project",
+      "community": 0,
+      "norm_label": "step 1 \u2014 create the project"
+    },
+    {
+      "label": "Step 2 \u2014 Install FastAPI",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "readme_step_2_install_fastapi",
+      "community": 0,
+      "norm_label": "step 2 \u2014 install fastapi"
+    },
+    {
+      "label": "Step 3 \u2014 Create the FastAPI application",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "readme_step_3_create_the_fastapi_application",
+      "community": 0,
+      "norm_label": "step 3 \u2014 create the fastapi application"
+    },
+    {
+      "label": "Step 4 \u2014 Run the development server",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L79",
+      "_origin": "ast",
+      "id": "readme_step_4_run_the_development_server",
+      "community": 0,
+      "norm_label": "step 4 \u2014 run the development server"
+    },
+    {
+      "label": "Step 5 \u2014 Explore automatic API documentation",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L97",
+      "_origin": "ast",
+      "id": "readme_step_5_explore_automatic_api_documentation",
+      "community": 0,
+      "norm_label": "step 5 \u2014 explore automatic api documentation"
+    },
+    {
+      "label": "Step 6 \u2014 Add dummy post data",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L110",
+      "_origin": "ast",
+      "id": "readme_step_6_add_dummy_post_data",
+      "community": 0,
+      "norm_label": "step 6 \u2014 add dummy post data"
+    },
+    {
+      "label": "Step 7 \u2014 Create a JSON API endpoint",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "readme_step_7_create_a_json_api_endpoint",
+      "community": 0,
+      "norm_label": "step 7 \u2014 create a json api endpoint"
+    },
+    {
+      "label": "Step 8 \u2014 Return HTML responses",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L164",
+      "_origin": "ast",
+      "id": "readme_step_8_return_html_responses",
+      "community": 0,
+      "norm_label": "step 8 \u2014 return html responses"
+    },
+    {
+      "label": "Project structure (Part 1)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "readme_project_structure_part_1",
+      "community": 0,
+      "norm_label": "project structure (part 1)"
+    },
+    {
+      "label": "Endpoints summary",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L204",
+      "_origin": "ast",
+      "id": "readme_endpoints_summary",
+      "community": 0,
+      "norm_label": "endpoints summary"
+    },
+    {
+      "label": "What we learned (Part 1)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L214",
+      "_origin": "ast",
+      "id": "readme_what_we_learned_part_1",
+      "community": 0,
+      "norm_label": "what we learned (part 1)"
+    },
+    {
+      "label": "Part 2 \u2014 Templates, Static Files, and Single Post View",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L229",
+      "_origin": "ast",
+      "id": "readme_part_2_templates_static_files_and_single_post_view",
+      "community": 1,
+      "norm_label": "part 2 \u2014 templates, static files, and single post view"
+    },
+    {
+      "label": "Step 1 \u2014 Install Jinja2",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L237",
+      "_origin": "ast",
+      "id": "readme_step_1_install_jinja2",
+      "community": 1,
+      "norm_label": "step 1 \u2014 install jinja2"
+    },
+    {
+      "label": "Step 2 \u2014 Set up Jinja2 templates",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L256",
+      "_origin": "ast",
+      "id": "readme_step_2_set_up_jinja2_templates",
+      "community": 1,
+      "norm_label": "step 2 \u2014 set up jinja2 templates"
+    },
+    {
+      "label": "Step 3 \u2014 Serve static files",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L278",
+      "_origin": "ast",
+      "id": "readme_step_3_serve_static_files",
+      "community": 1,
+      "norm_label": "step 3 \u2014 serve static files"
+    },
+    {
+      "label": "Step 4 \u2014 Set up Tailwind CSS",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L305",
+      "_origin": "ast",
+      "id": "readme_step_4_set_up_tailwind_css",
+      "community": 1,
+      "norm_label": "step 4 \u2014 set up tailwind css"
+    },
+    {
+      "label": "Step 5 \u2014 Create a base layout template",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L346",
+      "_origin": "ast",
+      "id": "readme_step_5_create_a_base_layout_template",
+      "community": 1,
+      "norm_label": "step 5 \u2014 create a base layout template"
+    },
+    {
+      "label": "Step 6 \u2014 Build the home page (post list)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L380",
+      "_origin": "ast",
+      "id": "readme_step_6_build_the_home_page_post_list",
+      "community": 1,
+      "norm_label": "step 6 \u2014 build the home page (post list)"
+    },
+    {
+      "label": "Step 7 \u2014 Name your routes for `url_for()`",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L424",
+      "_origin": "ast",
+      "id": "readme_step_7_name_your_routes_for_url_for",
+      "community": 1,
+      "norm_label": "step 7 \u2014 name your routes for `url_for()`"
+    },
+    {
+      "label": "Step 8 \u2014 Add a single post view with path parameters",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L449",
+      "_origin": "ast",
+      "id": "readme_step_8_add_a_single_post_view_with_path_parameters",
+      "community": 1,
+      "norm_label": "step 8 \u2014 add a single post view with path parameters"
+    },
+    {
+      "label": "Step 9 \u2014 Add client-side interactivity",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L488",
+      "_origin": "ast",
+      "id": "readme_step_9_add_client_side_interactivity",
+      "community": 1,
+      "norm_label": "step 9 \u2014 add client-side interactivity"
+    },
+    {
+      "label": "Project structure (Part 2)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L504",
+      "_origin": "ast",
+      "id": "readme_project_structure_part_2",
+      "community": 1,
+      "norm_label": "project structure (part 2)"
+    },
+    {
+      "label": "Running the app (Part 2)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L531",
+      "_origin": "ast",
+      "id": "readme_running_the_app_part_2",
+      "community": 1,
+      "norm_label": "running the app (part 2)"
+    },
+    {
+      "label": "Endpoints summary (after Part 2)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L549",
+      "_origin": "ast",
+      "id": "readme_endpoints_summary_after_part_2",
+      "community": 1,
+      "norm_label": "endpoints summary (after part 2)"
+    },
+    {
+      "label": "What we learned (Part 2)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L560",
+      "_origin": "ast",
+      "id": "readme_what_we_learned_part_2",
+      "community": 1,
+      "norm_label": "what we learned (part 2)"
+    },
+    {
+      "label": "Part 3 \u2014 Path Parameters, Validation, and Custom Error Handling",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L574",
+      "_origin": "ast",
+      "id": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "community": 2,
+      "norm_label": "part 3 \u2014 path parameters, validation, and custom error handling"
+    },
+    {
+      "label": "Step 1 \u2014 Separate web and API routes for a single post",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L582",
+      "_origin": "ast",
+      "id": "readme_step_1_separate_web_and_api_routes_for_a_single_post",
+      "community": 2,
+      "norm_label": "step 1 \u2014 separate web and api routes for a single post"
+    },
+    {
+      "label": "Step 2 \u2014 Raise HTTPException for missing resources",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L667",
+      "_origin": "ast",
+      "id": "readme_step_2_raise_httpexception_for_missing_resources",
+      "community": 2,
+      "norm_label": "step 2 \u2014 raise httpexception for missing resources"
+    },
+    {
+      "label": "Step 3 \u2014 Understand automatic path parameter validation",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L693",
+      "_origin": "ast",
+      "id": "readme_step_3_understand_automatic_path_parameter_validation",
+      "community": 2,
+      "norm_label": "step 3 \u2014 understand automatic path parameter validation"
+    },
+    {
+      "label": "Step 4 \u2014 Register a custom HTTP exception handler",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L711",
+      "_origin": "ast",
+      "id": "readme_step_4_register_a_custom_http_exception_handler",
+      "community": 2,
+      "norm_label": "step 4 \u2014 register a custom http exception handler"
+    },
+    {
+      "label": "Step 5 \u2014 Handle validation errors the same way",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L767",
+      "_origin": "ast",
+      "id": "readme_step_5_handle_validation_errors_the_same_way",
+      "community": 2,
+      "norm_label": "step 5 \u2014 handle validation errors the same way"
+    },
+    {
+      "label": "Step 6 \u2014 Create a styled error page template",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L817",
+      "_origin": "ast",
+      "id": "readme_step_6_create_a_styled_error_page_template",
+      "community": 2,
+      "norm_label": "step 6 \u2014 create a styled error page template"
+    },
+    {
+      "label": "Step 7 \u2014 Update imports",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L863",
+      "_origin": "ast",
+      "id": "readme_step_7_update_imports",
+      "community": 2,
+      "norm_label": "step 7 \u2014 update imports"
+    },
+    {
+      "label": "Project structure (Part 3)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L884",
+      "_origin": "ast",
+      "id": "readme_project_structure_part_3",
+      "community": 2,
+      "norm_label": "project structure (part 3)"
+    },
+    {
+      "label": "Endpoints summary (after Part 3)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L905",
+      "_origin": "ast",
+      "id": "readme_endpoints_summary_after_part_3",
+      "community": 2,
+      "norm_label": "endpoints summary (after part 3)"
+    },
+    {
+      "label": "Error handling summary",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L917",
+      "_origin": "ast",
+      "id": "readme_error_handling_summary",
+      "community": 2,
+      "norm_label": "error handling summary"
+    },
+    {
+      "label": "What we learned (Part 3)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L927",
+      "_origin": "ast",
+      "id": "readme_what_we_learned_part_3",
+      "community": 2,
+      "norm_label": "what we learned (part 3)"
+    },
+    {
+      "label": "What's next (later parts)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L940",
+      "_origin": "ast",
+      "id": "readme_what_s_next_later_parts",
+      "community": 2,
+      "norm_label": "what's next (later parts)"
+    },
+    {
+      "label": "Reference",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L954",
+      "_origin": "ast",
+      "id": "readme_reference",
+      "community": 2,
+      "norm_label": "reference"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L108",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_create_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_general_exception_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L87",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_get_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L81",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_get_posts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_home",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_show_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_validation_exception_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "main",
+      "target": "schemas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "main",
+      "target": "schemas_postcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "main",
+      "target": "schemas_postresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "main_home",
+      "target": "request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "main_general_exception_handler",
+      "target": "request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L58",
+      "weight": 1.0,
+      "source": "main_show_post",
+      "target": "request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "main_validation_exception_handler",
+      "target": "request",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "main_rationale_82",
+      "target": "main_get_posts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L108",
+      "weight": 1.0,
+      "source": "main_create_post",
+      "target": "schemas_postcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "main_general_exception_handler",
+      "target": "jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L127",
+      "weight": 1.0,
+      "source": "main_general_exception_handler",
+      "target": "starlettehttpexception",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L128",
+      "weight": 1.0,
+      "source": "main_rationale_128",
+      "target": "main_general_exception_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "main_validation_exception_handler",
+      "target": "jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L155",
+      "weight": 1.0,
+      "source": "main_validation_exception_handler",
+      "target": "requestvalidationerror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "package",
+      "target": "package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss_cli",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "schemas",
+      "target": "schemas_postbase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "schemas",
+      "target": "schemas_postcreate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "schemas",
+      "target": "schemas_postresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "schemas_postbase",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "source": "schemas_postcreate",
+      "target": "schemas_postbase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "schemas_postresponse",
+      "target": "schemas_postbase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "schemas_rationale_5",
+      "target": "schemas_postbase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "schemas.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "schemas_rationale_16",
+      "target": "schemas_postresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "static/js/utils.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "js_utils",
+      "target": "js_utils_initmobilenav",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "static/js/utils.js",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "js_utils",
+      "target": "js_utils_inittheme",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "static/js/utils.js",
+      "source_location": "L49",
+      "weight": 1.0,
+      "source": "js_utils",
+      "target": "js_utils_initthememenu",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "readme",
+      "target": "readme_blog_fastapi_tutorial",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "readme",
+      "target": "readme_part_1_getting_started",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L229",
+      "weight": 1.0,
+      "source": "readme",
+      "target": "readme_part_2_templates_static_files_and_single_post_view",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L574",
+      "weight": 1.0,
+      "source": "readme",
+      "target": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L204",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_endpoints_summary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_prerequisites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L192",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_project_structure_part_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_1_create_the_project",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_2_install_fastapi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_3_create_the_fastapi_application",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L79",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_4_run_the_development_server",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L97",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_5_explore_automatic_api_documentation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L110",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_6_add_dummy_post_data",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_7_create_a_json_api_endpoint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L164",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_step_8_return_html_responses",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L214",
+      "weight": 1.0,
+      "source": "readme_part_1_getting_started",
+      "target": "readme_what_we_learned_part_1",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L549",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_endpoints_summary_after_part_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L504",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_project_structure_part_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L531",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_running_the_app_part_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L237",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_1_install_jinja2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L256",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_2_set_up_jinja2_templates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L278",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_3_serve_static_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L305",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_4_set_up_tailwind_css",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L346",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_5_create_a_base_layout_template",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L380",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_6_build_the_home_page_post_list",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L424",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_7_name_your_routes_for_url_for",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L449",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_8_add_a_single_post_view_with_path_parameters",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L488",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_step_9_add_client_side_interactivity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L560",
+      "weight": 1.0,
+      "source": "readme_part_2_templates_static_files_and_single_post_view",
+      "target": "readme_what_we_learned_part_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L905",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_endpoints_summary_after_part_3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L917",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_error_handling_summary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L884",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_project_structure_part_3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L954",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_reference",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L582",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_1_separate_web_and_api_routes_for_a_single_post",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L667",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_2_raise_httpexception_for_missing_resources",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L693",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_3_understand_automatic_path_parameter_validation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L711",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_4_register_a_custom_http_exception_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L767",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_5_handle_validation_errors_the_same_way",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L817",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_6_create_a_styled_error_page_template",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L863",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_step_7_update_imports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L940",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_what_s_next_later_parts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L927",
+      "weight": 1.0,
+      "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
+      "target": "readme_what_we_learned_part_3",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "59639e9e20074830532fd62a89c1414d5ff3ef14"
+}
