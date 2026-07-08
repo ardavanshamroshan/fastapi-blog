@@ -7,6 +7,7 @@ A minimal blog API with styled HTML pages, built while following the [FastAPI Fu
 | 1 | [Part 1](https://youtu.be/7AMjmCTumuo?si=1KWXniowqB-o05Mz) | FastAPI setup, JSON API, inline HTML |
 | 2 | [Part 2](https://youtu.be/G4NIB9Rx9Qs?si=ZXfoVQvaBLzCIM9K) | Jinja2 templates, static files, Tailwind CSS, single post view |
 | 3 | [Part 3](https://youtu.be/WRjXIA5pMtk?si=n6uJOrhtggajfJKz) | Path parameters, API vs web routes, validation errors, custom exception handlers |
+| 4 | [Part 4](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm) | Pydantic schemas, field validation, `response_model`, POST create |
 
 ---
 
@@ -937,13 +938,234 @@ blog/
 
 ---
 
+---
+
+# Part 4 — Pydantic Schemas for Request and Response Validation
+
+**Goals:** define an API contract with Pydantic models, add field-level validation (`min_length` / `max_length`), wire `response_model` on GET endpoints, and create a POST endpoint that accepts a validated body and returns a new post.
+
+Video: [FastAPI Full Course — Part 4](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm)
+
+Schemas = API contract. FastAPI uses them for **validation**, **serialization**, and **OpenAPI docs**.
+
+---
+
+## Step 1 — Create `schemas.py`
+
+Keep request/response shapes out of `main.py`. New file:
+
+```python
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class PostBase(BaseModel):
+    """Shared fields. No defaults → required."""
+    title: str = Field(min_length=1, max_length=100)
+    content: str = Field(min_length=1, max_length=1000)
+    author: str = Field(min_length=1, max_length=50)
+
+
+class PostCreate(PostBase):
+    pass
+
+
+class PostResponse(PostBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    date_created: str
+    date_updated: str
+```
+
+**Why three models?**
+
+| Model | Role |
+|-------|------|
+| `PostBase` | Shared `title` / `content` / `author` + length rules |
+| `PostCreate` | Request body for POST (client cannot set `id` or dates) |
+| `PostResponse` | Response shape — adds `id`, timestamps |
+
+Inheritance: create + response reuse base → no duplicated field definitions.
+
+`ConfigDict(from_attributes=True)` — later ORM objects can feed response models via attributes (not only dicts).
+
+Import in `main.py`:
+
+```python
+from schemas import PostCreate, PostResponse
+```
+
+---
+
+## Step 2 — Field validation with `Field`
+
+`Field(min_length=..., max_length=...)` rejects bad input before your handler runs.
+
+| Field | Constraints |
+|-------|-------------|
+| `title` | 1–100 chars |
+| `content` | 1–1000 chars |
+| `author` | 1–50 chars |
+
+Empty string / too-long string → **422** (your Part 3 `RequestValidationError` handler formats it).
+
+---
+
+## Step 3 — Add `response_model` to GET endpoints
+
+Tell FastAPI what response JSON looks like:
+
+```python
+@app.get(
+    path="/api/posts",
+    response_model=list[PostResponse],
+    name="api.posts.index",
+)
+def get_posts() -> list[dict]:
+    return posts
+
+
+@app.get(
+    path="/api/posts/{post_id}",
+    response_model=PostResponse,
+    name="api.posts.show",
+)
+def get_post(post_id: int) -> dict:
+    post = next((p for p in posts if p["id"] == post_id), None)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found",
+        )
+    return post
+```
+
+**What `response_model` does:**
+
+1. **Validates** outgoing data against the schema
+2. **Filters** extra keys (e.g. `tags` in dummy data not on `PostResponse` → dropped in JSON)
+3. **Documents** response schema in `/docs`
+
+Return type hint can stay `list[dict]` / `dict` — in-memory storage still uses dicts. FastAPI converts for the wire.
+
+---
+
+## Step 4 — Create a POST endpoint
+
+```python
+import datetime
+
+@app.post(
+    path="/api/posts",
+    name="api.posts.create",
+    response_model=PostResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_post(post: PostCreate):
+    new_id = max(p["id"] for p in posts) + 1 if posts else 1
+    now = datetime.datetime.today().isoformat()
+    new_post = {
+        "id": new_id,
+        "author": post.author,
+        "title": post.title,
+        "content": post.content,
+        "date_created": now,
+        "date_updated": now,
+    }
+    posts.append(new_post)
+    return new_post
+```
+
+**Flow:**
+
+1. Client sends JSON body
+2. FastAPI parses body → `PostCreate` (fails → 422)
+3. Handler builds dict, assigns `id` + timestamps (server-owned)
+4. Append to in-memory `posts`
+5. Return `new_post` → validated/serialized as `PostResponse`
+6. Status **201 Created** (not 200)
+
+**Try it** (Swagger at `/docs`, or curl):
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Hello","content":"World","author":"Ada"}'
+```
+
+Bad body (empty title):
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title":"","content":"World","author":"Ada"}'
+```
+
+→ 422 Unprocessable Entity.
+
+---
+
+## Request vs response contract
+
+```
+Client POST body          Server response
+─────────────────         ─────────────────
+title                     id            (server)
+content                   title
+author                    content
+                          author
+                          date_created  (server)
+                          date_updated  (server)
+```
+
+Client never sends `id` / dates. Schema split enforces that.
+
+---
+
+## Project structure (Part 4)
+
+```
+blog/
+├── main.py          # routes + exception handlers
+├── schemas.py       # PostBase, PostCreate, PostResponse (new)
+├── templates/
+├── static/
+└── ...
+```
+
+---
+
+## Endpoints summary (after Part 4)
+
+| Method | Path | Body | Response | Status | Route name |
+|--------|------|------|----------|--------|------------|
+| GET | `/` | — | HTML list | 200 | `home.index` |
+| GET | `/posts` | — | HTML list | 200 | `home.posts` |
+| GET | `/posts/{post_id}` | — | HTML post | 200 | `posts.show` |
+| GET | `/api/posts` | — | `list[PostResponse]` | 200 | `api.posts.index` |
+| GET | `/api/posts/{post_id}` | — | `PostResponse` | 200 | `api.posts.show` |
+| POST | `/api/posts` | `PostCreate` | `PostResponse` | **201** | `api.posts.create` |
+
+---
+
+## What we learned (Part 4)
+
+- Put API shapes in **`schemas.py`** with Pydantic `BaseModel`
+- Share fields via **`PostBase`**; split **create** vs **response** models
+- Constrain strings with **`Field(min_length=..., max_length=...)`**
+- Use **`response_model=`** for validation, filtering, and OpenAPI docs
+- Accept a validated body with **`post: PostCreate`**
+- Return **201** with `status_code=status.HTTP_201_CREATED`
+- Let server own **`id`** and **timestamps**
+
+---
+
 ## What's next (later parts)
 
 The full course continues with:
 
 - SQLAlchemy database setup
-- Pydantic models for validation
-- Full CRUD operations
+- Full CRUD operations (update, delete)
 - User registration and login (password hashing, JWT)
 - File uploads (profile pictures)
 - Background tasks (email)
@@ -956,8 +1178,12 @@ The full course continues with:
 - [FastAPI Full Course — Part 1 (YouTube)](https://youtu.be/7AMjmCTumuo?si=1KWXniowqB-o05Mz)
 - [FastAPI Full Course — Part 2 (YouTube)](https://youtu.be/G4NIB9Rx9Qs?si=ZXfoVQvaBLzCIM9K)
 - [FastAPI Full Course — Part 3 (YouTube)](https://youtu.be/WRjXIA5pMtk?si=n6uJOrhtggajfJKz)
+- [FastAPI Full Course — Part 4 (YouTube)](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm)
 - [FastAPI documentation](https://fastapi.tiangolo.com/)
 - [FastAPI — Path Parameters](https://fastapi.tiangolo.com/tutorial/path-params/)
 - [FastAPI — Handling Errors](https://fastapi.tiangolo.com/tutorial/handling-errors/)
+- [FastAPI — Body / Pydantic Models](https://fastapi.tiangolo.com/tutorial/body/)
+- [FastAPI — Response Model](https://fastapi.tiangolo.com/tutorial/response-model/)
+- [Pydantic documentation](https://docs.pydantic.dev/)
 - [Jinja2 documentation](https://jinja.palletsprojects.com/)
 - [Tailwind CSS documentation](https://tailwindcss.com/docs)
