@@ -8,6 +8,7 @@ A minimal blog API with styled HTML pages, built while following the [FastAPI Fu
 | 2 | [Part 2](https://youtu.be/G4NIB9Rx9Qs?si=ZXfoVQvaBLzCIM9K) | Jinja2 templates, static files, Tailwind CSS, single post view |
 | 3 | [Part 3](https://youtu.be/WRjXIA5pMtk?si=n6uJOrhtggajfJKz) | Path parameters, API vs web routes, validation errors, custom exception handlers |
 | 4 | [Part 4](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm) | Pydantic schemas, field validation, `response_model`, POST create |
+| 5 | [Part 5](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba) | SQLAlchemy, SQLite, ORM models, repositories, services, dependency injection |
 
 ---
 
@@ -1160,16 +1161,812 @@ blog/
 
 ---
 
+---
+
+# Part 5 — SQLAlchemy Database, ORM Models, and Dependency Injection
+
+**Goals:** replace the in-memory `posts` list with a persistent SQLite database, define SQLAlchemy ORM models with User–Post relationships, split database logic into repositories and services, wire everything with FastAPI dependency injection, and reorganize the app into a scalable layered structure.
+
+Video: [FastAPI Full Course — Part 5](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba)
+
+**Why this matters:** in-memory data dies on server restart. A real database persists data. Separating ORM models, Pydantic schemas, repositories, and services keeps each layer focused and makes it easy to swap SQLite for Postgres or MySQL later.
+
+---
+
+## Architecture overview
+
+```mermaid
+flowchart TB
+    subgraph HTTP
+        Web[routers/web.py]
+        API_P[routers/api/posts.py]
+        API_U[routers/api/users.py]
+    end
+
+    subgraph DI["Dependency injection"]
+        GP[get_post_service]
+        GU[get_user_service]
+        GDB[get_db]
+    end
+
+    subgraph Services
+        PS[PostService]
+        US[UserService]
+    end
+
+    subgraph Repos
+        PR[PostRepository]
+        UR[UserRepository]
+    end
+
+    subgraph DB
+        Session[SQLAlchemy Session]
+        SQLite[(database/blog.db)]
+    end
+
+    Web --> GP & GU
+    API_P --> GP
+    API_U --> GU & GP
+    GP --> PS
+    GU --> US
+    PS --> PR & UR
+    US --> UR
+    PR & UR --> Session
+    GDB --> Session
+    Session --> SQLite
+```
+
+**Request flow (example: `GET /api/posts/1`):**
+
+1. Router calls `post_service.get_post(1)` via `Depends(get_post_service)`
+2. FastAPI resolves `get_post_service` → needs `PostRepository` + `UserRepository`
+3. Those need `Session` from `get_db()`
+4. `get_db()` opens a session, yields it, closes on response
+5. `PostService` asks `PostRepository.get_by_id(1)`
+6. Repository runs SQLAlchemy query with `joinedload(Post.author)`
+7. ORM `Post` object returned → FastAPI serializes to `PostResponse` JSON
+
+---
+
+## Step 1 — Install new dependencies
+
+```bash
+uv add sqlalchemy pydantic-settings
+```
+
+Update `pyproject.toml`:
+
+```toml
+dependencies = [
+    "fastapi[standard]>=0.139.0",
+    "jinja2>=3.1.6",
+    "pydantic-settings>=2.0.0",
+    "sqlalchemy>=2.0.51",
+]
+```
+
+| Package | Purpose |
+|---------|---------|
+| `sqlalchemy` | ORM, engine, sessions, models |
+| `pydantic-settings` | Load config from `.env` |
+| `email-validator` | Pulled transitively — required for `EmailStr` in user schemas |
+
+---
+
+## Step 2 — Environment configuration (`.env`)
+
+Create `.env` in the project root (gitignored):
+
+```env
+APP_NAME=Blog
+
+DATABASE_URL=sqlite:///./database/blog.db
+
+TEMPLATES_DIR=templates
+
+STATIC_URL_PREFIX=/static
+STATIC_DIR=static
+
+STORAGE_URL_PREFIX=/media
+STORAGE_DIR=storage
+```
+
+Create the database directory:
+
+```bash
+mkdir -p database storage
+```
+
+`DATABASE_URL` format for SQLite: `sqlite:///./database/blog.db` (three slashes = relative file path).
+
+For Postgres later, change to something like `postgresql://user:pass@localhost/blog` — SQLAlchemy handles both.
+
+---
+
+## Step 3 — Settings and shared config (`config/config.py`)
+
+Move app-wide settings out of hardcoded values:
+
+```python
+from pathlib import Path
+
+from fastapi.templating import Jinja2Templates
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+class NotFoundError(Exception):
+    def __init__(self, resource: str, identifier: int | str) -> None:
+        self.resource = resource
+        self.identifier = identifier
+        super().__init__(f"{resource} {identifier} not found")
+
+
+class ConflictError(Exception):
+    def __init__(self, detail: str) -> None:
+        self.detail = detail
+        super().__init__(detail)
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+
+    app_name: str = Field(validation_alias="APP_NAME")
+    database_url: str = Field(validation_alias="DATABASE_URL")
+    static_url_prefix: str = Field(validation_alias="STATIC_URL_PREFIX")
+    storage_url_prefix: str = Field(validation_alias="STORAGE_URL_PREFIX")
+    templates_dir: Path = Field(validation_alias="TEMPLATES_DIR")
+    static_dir: Path = Field(validation_alias="STATIC_DIR")
+    storage_dir: Path = Field(validation_alias="STORAGE_DIR")
+
+
+settings = Settings()
+settings.templates_dir = BASE_DIR / settings.templates_dir
+settings.static_dir = BASE_DIR / settings.static_dir
+settings.storage_dir = BASE_DIR / settings.storage_dir
+templates = Jinja2Templates(directory=str(settings.templates_dir))
+```
+
+**New domain exceptions:**
+
+- `NotFoundError` — post/user not found (replaces inline `HTTPException` in services)
+- `ConflictError` — duplicate username/email on user create
+
+Handlers in `app/main.py` convert these to JSON (API) or HTML error pages (web).
+
+---
+
+## Step 4 — Database engine and session (`config/database.py`)
+
+```python
+from collections.abc import Generator
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+
+from config.config import settings
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+connect_args = (
+    {"check_same_thread": False}
+    if settings.database_url.startswith("sqlite")
+    else {}
+)
+engine = create_engine(settings.database_url, connect_args=connect_args)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+
+def get_db() -> Generator[Session]:
+    with SessionLocal() as db:
+        yield db
+```
+
+| Piece | Role |
+|-------|------|
+| `Base` | Declarative base — all ORM models inherit from it |
+| `engine` | Connection pool to the database |
+| `SessionLocal` | Factory for database sessions |
+| `get_db()` | Yields one session per request, closes after response |
+| `check_same_thread: False` | Required for SQLite with FastAPI's threaded server |
+
+---
+
+## Step 5 — SQLAlchemy ORM models
+
+### `app/models/user.py`
+
+```python
+class User(Base):
+    __tablename__ = "users"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
+    image_file: Mapped[str | None] = mapped_column(String(200), nullable=True, default=None)
+    date_created: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=...)
+    date_updated: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=..., onupdate=...)
+
+    posts: Mapped[list[Post]] = relationship(back_populates="author")
+
+    @property
+    def image_path(self) -> str:
+        if self.image_file:
+            return f"/media/profile_pics/{self.image_file}"
+        return "/static/profile_pics/default.jpg"
+```
+
+### `app/models/post.py`
+
+```python
+class Post(Base):
+    __tablename__ = "posts"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    title: Mapped[str] = mapped_column(String(100), nullable=False)
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)
+    date_created: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=...)
+    date_updated: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=..., onupdate=...)
+
+    author: Mapped[User] = relationship(back_populates="posts")
+```
+
+### Relationship diagram
+
+```
+users                          posts
+─────                          ─────
+id (PK)          ◄────────────  user_id (FK)
+username                       title
+email                          content
+image_file                     date_created
+date_created                   date_updated
+date_updated
+
+User.posts  ──►  list[Post]
+Post.author ──►  User
+```
+
+**Key change from Part 4:** `author` is no longer a plain string on posts. Posts belong to a `User` via `user_id` foreign key.
+
+Register models in `app/models/__init__.py`:
+
+```python
+from app.models.post import Post
+from app.models.user import User
+
+__all__ = ["Post", "User"]
+```
+
+Import models in `app/main.py` so SQLAlchemy registers them:
+
+```python
+import app.models  # noqa: F401
+```
+
+---
+
+## Step 6 — Create database tables
+
+Run once to create tables from ORM models:
+
+```python
+# create_tables.py (one-off script)
+from config.database import Base, engine
+import app.models  # noqa: F401
+
+Base.metadata.create_all(bind=engine)
+```
+
+```bash
+uv run python create_tables.py
+```
+
+This creates `database/blog.db` with `users` and `posts` tables matching your models.
+
+---
+
+## Step 7 — ORM models vs Pydantic schemas
+
+| | SQLAlchemy ORM (`app/models/`) | Pydantic (`app/schemas/`) |
+|--|-------------------------------|----------------------------|
+| **Purpose** | Database tables and relationships | API request/response validation |
+| **Used by** | Repositories, services | Routers, OpenAPI docs |
+| **Lifespan** | Persisted in DB | Per-request, in memory |
+| **Example** | `Post` with `user_id`, `relationship` | `PostCreate` with `user_id`; `PostResponse` with nested `author` |
+
+**Rule:** never return ORM models directly without `response_model` — Pydantic controls what leaves the API. `ConfigDict(from_attributes=True)` lets Pydantic read ORM object attributes.
+
+Move schemas from root `schemas.py` → `app/schemas/`:
+
+### `app/schemas/user.py`
+
+```python
+class UserBase(BaseModel):
+    username: str = Field(min_length=1, max_length=50)
+    email: EmailStr = Field(max_length=120)
+
+
+class UserCreate(UserBase):
+    pass
+
+
+class UserResponse(UserBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    image_file: str | None = None
+    image_path: str
+    date_created: datetime
+    date_updated: datetime
+```
+
+### `app/schemas/post.py`
+
+```python
+class PostBase(BaseModel):
+    title: str = Field(min_length=1, max_length=100)
+    content: str = Field(min_length=1, max_length=1000)
+
+
+class PostCreate(PostBase):
+    user_id: int   # was `author: str` in Part 4
+
+
+class PostResponse(PostBase):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    user_id: int
+    date_created: datetime
+    date_updated: datetime
+    author: UserResponse   # nested user object
+```
+
+**Breaking change:** `POST /api/posts` body is now:
+
+```json
+{
+  "title": "Hello",
+  "content": "World",
+  "user_id": 1
+}
+```
+
+Not `"author": "John Doe"`.
+
+---
+
+## Step 8 — Repository layer (database access)
+
+Repositories encapsulate SQLAlchemy queries. Routes never touch `Session` directly.
+
+### `app/repositories/user_repository.py`
+
+```python
+class UserRepository:
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def get_by_id(self, user_id: int) -> User | None: ...
+    def get_by_username_or_email(self, *, username: str, email: str) -> User | None: ...
+    def exists(self, user_id: int) -> bool: ...
+    def create(self, *, username: str, email: str) -> User: ...
+```
+
+### `app/repositories/post_repository.py`
+
+```python
+class PostRepository:
+    def __init__(self, db: Session) -> None:
+        self._db = db
+
+    def _base_query(self):
+        return select(Post).options(joinedload(Post.author))
+
+    def list_all(self) -> list[Post]: ...
+    def get_by_id(self, post_id: int) -> Post | None: ...
+    def list_by_user_id(self, user_id: int) -> list[Post]: ...
+    def create(self, *, title: str, content: str, user_id: int) -> Post: ...
+```
+
+**`joinedload(Post.author)`** — eager-loads the related `User` in one query (avoids N+1 when serializing `PostResponse.author`).
+
+Repository `create()` pattern:
+
+```python
+def create(self, *, title: str, content: str, user_id: int) -> Post:
+    post = Post(title=title, content=content, user_id=user_id)
+    self._db.add(post)
+    self._db.commit()
+    self._db.refresh(post)
+    # re-fetch with joinedload so author is available
+    return self._db.scalar(self._base_query().where(Post.id == post.id))
+```
+
+---
+
+## Step 9 — Service layer (business logic)
+
+Services sit between routers and repositories. They enforce rules and raise domain exceptions.
+
+### `app/services/user_service.py`
+
+```python
+class UserService:
+    def __init__(self, repository: UserRepository) -> None:
+        self._repository = repository
+
+    def get_user(self, user_id: int) -> User:
+        user = self._repository.get_by_id(user_id)
+        if user is None:
+            raise NotFoundError("User", user_id)
+        return user
+
+    def create_user(self, data: UserCreate) -> User:
+        existing = self._repository.get_by_username_or_email(
+            username=data.username, email=data.email
+        )
+        if existing:
+            raise ConflictError("Username or email already exists")
+        return self._repository.create(username=data.username, email=data.email)
+```
+
+### `app/services/post_service.py`
+
+```python
+class PostService:
+    def __init__(self, repository: PostRepository, user_repository: UserRepository) -> None:
+        self._repository = repository
+        self._user_repository = user_repository
+
+    def list_posts(self) -> list[Post]: ...
+    def get_post(self, post_id: int) -> Post: ...       # raises NotFoundError
+    def list_posts_for_user(self, user_id: int) -> list[Post]: ...
+    def create_post(self, data: PostCreate) -> Post:   # validates user exists first
+```
+
+---
+
+## Step 10 — Dependency injection (`app/providers/`)
+
+FastAPI's `Depends()` wires the chain automatically per request.
+
+### `app/providers/database.py`
+
+```python
+from config.database import get_db
+
+__all__ = ["get_db"]
+```
+
+### `app/providers/services.py`
+
+```python
+DbSession = Annotated[Session, Depends(get_db)]
+
+
+def get_user_repository(db: DbSession) -> UserRepository:
+    return UserRepository(db)
+
+
+def get_post_repository(db: DbSession) -> PostRepository:
+    return PostRepository(db)
+
+
+def get_user_service(
+    repository: Annotated[UserRepository, Depends(get_user_repository)],
+) -> UserService:
+    return UserService(repository)
+
+
+def get_post_service(
+    post_repository: Annotated[PostRepository, Depends(get_post_repository)],
+    user_repository: Annotated[UserRepository, Depends(get_user_repository)],
+) -> PostService:
+    return PostService(post_repository, user_repository)
+```
+
+**Dependency chain:**
+
+```
+get_db
+  └── get_user_repository / get_post_repository
+        └── get_user_service / get_post_service
+              └── route handler
+```
+
+Each request gets a fresh `Session`. One session shared across repos in the same request.
+
+---
+
+## Step 11 — App factory pattern (`app/main.py`)
+
+Replace monolithic `main.py` with `create_app()`:
+
+```python
+def create_app() -> FastAPI:
+    app = FastAPI(title=settings.app_name)
+
+    app.mount(settings.static_url_prefix, StaticFiles(directory=str(settings.static_dir)), name="static")
+    app.mount(settings.storage_url_prefix, StaticFiles(directory=str(settings.storage_dir)), name="media")
+
+    app.include_router(web.router)
+    app.include_router(users.router)
+    app.include_router(posts.router)
+
+    # exception handlers for NotFoundError, ConflictError, HTTPException, RequestValidationError
+    ...
+
+    return app
+```
+
+Root `main.py` becomes thin:
+
+```python
+from app.main import create_app
+
+app = create_app()
+```
+
+---
+
+## Step 12 — Router reorganization
+
+Split routes into modules:
+
+```
+routers/
+├── web.py              # HTML pages
+└── api/
+    ├── posts.py        # /api/posts
+    └── users.py        # /api/users
+```
+
+### API — `routers/api/posts.py`
+
+```python
+router = APIRouter(prefix="/api/posts", tags=["posts"])
+
+@router.get("", response_model=list[PostResponse], name="api.posts.index")
+def index(post_service: Annotated[PostService, Depends(get_post_service)]):
+    return post_service.list_posts()
+
+@router.get("/{post_id}", response_model=PostResponse, name="api.posts.show")
+def show(post_id: int, post_service: Annotated[PostService, Depends(get_post_service)]):
+    return post_service.get_post(post_id)
+
+@router.post("", response_model=PostResponse, status_code=201, name="api.posts.store")
+def store(post: PostCreate, post_service: Annotated[PostService, Depends(get_post_service)]):
+    return post_service.create_post(post)
+```
+
+### API — `routers/api/users.py` (new)
+
+```python
+router = APIRouter(prefix="/api/users", tags=["users"])
+
+@router.post("/", response_model=UserResponse, status_code=201, name="api.users.store")
+def store(user: UserCreate, user_service: Annotated[UserService, Depends(get_user_service)]):
+    return user_service.create_user(user)
+
+@router.get("/{user_id}", response_model=UserResponse, name="api.users.show")
+def show(user_id: int, user_service: Annotated[UserService, Depends(get_user_service)]):
+    return user_service.get_user(user_id)
+
+@router.get("/{user_id}/posts", response_model=list[PostResponse], name="api.users.posts")
+def posts(user_id: int, post_service: Annotated[PostService, Depends(get_post_service)]):
+    return post_service.list_posts_for_user(user_id)
+```
+
+### Web — `routers/web.py`
+
+HTML routes now use services instead of the in-memory list:
+
+```python
+@router.get("/posts", name="posts.index")
+def index(request: Request, post_service: Annotated[PostService, Depends(get_post_service)]):
+    return templates.TemplateResponse(
+        request=request,
+        name="posts/index.html",
+        context={"posts": post_service.list_posts()},
+    )
+
+@router.get("/users/{user_id}/posts", name="users.posts.index")
+def user_posts(request, user_id, post_service, user_service):
+    author = user_service.get_user(user_id)
+    posts = post_service.list_posts_for_user(user_id)
+    return templates.TemplateResponse(..., context={"posts": posts, "author": author})
+```
+
+---
+
+## Step 13 — Updated exception handlers
+
+`app/main.py` handles domain exceptions separately from HTTP/validation errors:
+
+| Exception | API (`/api/...`) | Web |
+|-----------|------------------|-----|
+| `NotFoundError` | 404 JSON | `errors/error.html` |
+| `ConflictError` | 422 JSON | `errors/error.html` |
+| `HTTPException` | JSON | `errors/error.html` |
+| `RequestValidationError` | 422 JSON | `errors/error.html` |
+
+Path check helper:
+
+```python
+def _is_api_request(request: Request) -> bool:
+    return request.url.path.startswith("/api/")
+```
+
+---
+
+## Step 14 — Template updates for author relationship
+
+Templates now use `post.author` as a **User object**, not a string:
+
+```html
+<!-- home.html -->
+<img src="{{ post.author.image_path }}" alt="{{ post.author.username }}" />
+<a href="{{ url_for('users.posts.index', user_id=post.author.id) }}">
+  {{ post.author.username }}
+</a>
+<time>{{ post.date_created.strftime("%A %B %d, %Y") }}</time>
+```
+
+Dates are `datetime` objects from the DB — use `.strftime()` in templates.
+
+---
+
+## Step 15 — Seed and test the API
+
+**1. Create a user:**
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/users/ \
+  -H "Content-Type: application/json" \
+  -d '{"username":"johndoe","email":"john@example.com"}'
+```
+
+**2. Create a post (use `user_id` from step 1):**
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/posts \
+  -H "Content-Type: application/json" \
+  -d '{"title":"My First DB Post","content":"Persisted in SQLite","user_id":1}'
+```
+
+**3. List posts:**
+
+```bash
+curl http://127.0.0.1:8000/api/posts
+```
+
+**4. Get user's posts:**
+
+```bash
+curl http://127.0.0.1:8000/api/users/1/posts
+```
+
+**5. Browse HTML:**
+
+- http://127.0.0.1:8000/posts
+- http://127.0.0.1:8000/posts/1
+- http://127.0.0.1:8000/users/1/posts
+
+Restart the server — data persists in `database/blog.db`.
+
+---
+
+## Project structure (Part 5)
+
+```
+blog/
+├── main.py                          # thin entry: app = create_app()
+├── .env                             # environment config (gitignored)
+├── database/
+│   └── blog.db                      # SQLite database file
+├── config/
+│   ├── config.py                    # Settings, exceptions, templates
+│   └── database.py                  # engine, SessionLocal, get_db, Base
+├── app/
+│   ├── main.py                      # create_app(), mounts, exception handlers
+│   ├── models/
+│   │   ├── user.py                  # User ORM model
+│   │   └── post.py                  # Post ORM model
+│   ├── schemas/
+│   │   ├── user.py                  # UserCreate, UserResponse
+│   │   └── post.py                  # PostCreate, PostResponse
+│   ├── repositories/
+│   │   ├── user_repository.py
+│   │   └── post_repository.py
+│   ├── services/
+│   │   ├── user_service.py
+│   │   └── post_service.py
+│   └── providers/
+│       ├── database.py              # re-exports get_db
+│       └── services.py              # DI: repos → services
+├── routers/
+│   ├── web.py                       # HTML routes
+│   └── api/
+│       ├── posts.py
+│       └── users.py
+├── templates/
+├── static/
+├── storage/                         # user uploads (profile pics later)
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+## Endpoints summary (after Part 5)
+
+| Method | Path | Body | Response | Status | Route name |
+|--------|------|------|----------|--------|------------|
+| GET | `/` | — | HTML list | 200 | `home.index` |
+| GET | `/posts` | — | HTML list | 200 | `posts.index` |
+| GET | `/posts/{post_id}` | — | HTML post | 200 | `posts.show` |
+| GET | `/users/{user_id}/posts` | — | HTML user posts | 200 | `users.posts.index` |
+| GET | `/api/posts` | — | `list[PostResponse]` | 200 | `api.posts.index` |
+| GET | `/api/posts/{post_id}` | — | `PostResponse` | 200 | `api.posts.show` |
+| POST | `/api/posts` | `PostCreate` | `PostResponse` | **201** | `api.posts.store` |
+| POST | `/api/users/` | `UserCreate` | `UserResponse` | **201** | `api.users.store` |
+| GET | `/api/users/{user_id}` | — | `UserResponse` | 200 | `api.users.show` |
+| GET | `/api/users/{user_id}/posts` | — | `list[PostResponse]` | 200 | `api.users.posts` |
+
+---
+
+## What changed from Part 4
+
+| Part 4 | Part 5 |
+|--------|--------|
+| `posts: list[dict]` in memory | SQLite via SQLAlchemy |
+| `schemas.py` at root | `app/schemas/` package |
+| `author: str` on posts | `user_id` FK + `User` relationship |
+| Routes call list/dict directly | Routes → Service → Repository → DB |
+| `HTTPException` in route handlers | `NotFoundError` / `ConflictError` in services |
+| Monolithic `main.py` | `create_app()` + routers |
+| Manual id/timestamp assignment | DB defaults + `onupdate` |
+| No users | Full user CRUD foundation |
+
+---
+
+## What we learned (Part 5)
+
+- Connect FastAPI to **SQLite** with SQLAlchemy 2.0 (`create_engine`, `sessionmaker`)
+- Define **ORM models** with `Mapped`, `mapped_column`, `relationship`, `ForeignKey`
+- Separate **ORM models** (persistence) from **Pydantic schemas** (API contract)
+- Use **`get_db()`** generator for per-request database sessions
+- Organize DB access in **repositories** and business rules in **services**
+- Wire layers with **`Depends()`** dependency injection
+- Eager-load relationships with **`joinedload()`**
+- Load config from **`.env`** with `pydantic-settings`
+- Use an **app factory** (`create_app()`) for testability and clean structure
+- Split routes into **web** and **api** modules
+- Raise **domain exceptions** in services; handle them centrally in the app
+
+---
+
 ## What's next (later parts)
 
 The full course continues with:
 
-- SQLAlchemy database setup
-- Full CRUD operations (update, delete)
+- Full CRUD (update, delete posts)
 - User registration and login (password hashing, JWT)
-- File uploads (profile pictures)
+- File uploads (profile pictures → `storage/`)
 - Background tasks (email)
-- Code organization with routers
+- Alembic migrations (schema versioning)
 
 ---
 
@@ -1179,11 +1976,11 @@ The full course continues with:
 - [FastAPI Full Course — Part 2 (YouTube)](https://youtu.be/G4NIB9Rx9Qs?si=ZXfoVQvaBLzCIM9K)
 - [FastAPI Full Course — Part 3 (YouTube)](https://youtu.be/WRjXIA5pMtk?si=n6uJOrhtggajfJKz)
 - [FastAPI Full Course — Part 4 (YouTube)](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm)
+- [FastAPI Full Course — Part 5 (YouTube)](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba)
 - [FastAPI documentation](https://fastapi.tiangolo.com/)
-- [FastAPI — Path Parameters](https://fastapi.tiangolo.com/tutorial/path-params/)
-- [FastAPI — Handling Errors](https://fastapi.tiangolo.com/tutorial/handling-errors/)
-- [FastAPI — Body / Pydantic Models](https://fastapi.tiangolo.com/tutorial/body/)
-- [FastAPI — Response Model](https://fastapi.tiangolo.com/tutorial/response-model/)
-- [Pydantic documentation](https://docs.pydantic.dev/)
+- [FastAPI — SQL Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
+- [FastAPI — Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/)
+- [SQLAlchemy 2.0 documentation](https://docs.sqlalchemy.org/en/20/)
+- [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 - [Jinja2 documentation](https://jinja.palletsprojects.com/)
 - [Tailwind CSS documentation](https://tailwindcss.com/docs)
