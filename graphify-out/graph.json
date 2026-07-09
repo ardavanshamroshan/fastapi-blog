@@ -4,24 +4,34 @@
   "graph": {},
   "nodes": [
     {
-      "label": "main.py",
+      "label": "__init__.py",
       "file_type": "code",
-      "source_file": "main.py",
+      "source_file": "app/__init__.py",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "main",
+      "id": "app_init",
+      "community": 15,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "app/main.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "app_main",
       "community": 3,
       "norm_label": "main.py"
     },
     {
-      "label": "home()",
+      "label": "_is_api_request()",
       "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L47",
+      "source_file": "app/main.py",
+      "source_location": "L12",
       "_origin": "ast",
-      "id": "main_home",
-      "community": 4,
-      "norm_label": "home()"
+      "id": "app_main_is_api_request",
+      "community": 3,
+      "norm_label": "_is_api_request()"
     },
     {
       "label": "Request",
@@ -30,68 +40,18 @@
       "source_location": "",
       "_origin": "ast",
       "id": "request",
-      "community": 4,
+      "community": 3,
       "norm_label": "request"
     },
     {
-      "label": "show_post()",
+      "label": "_error_page()",
       "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L58",
+      "source_file": "app/main.py",
+      "source_location": "L16",
       "_origin": "ast",
-      "id": "main_show_post",
-      "community": 4,
-      "norm_label": "show_post()"
-    },
-    {
-      "label": "get_posts()",
-      "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L81",
-      "_origin": "ast",
-      "id": "main_get_posts",
+      "id": "app_main_error_page",
       "community": 3,
-      "norm_label": "get_posts()"
-    },
-    {
-      "label": "get_post()",
-      "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L87",
-      "_origin": "ast",
-      "id": "main_get_post",
-      "community": 3,
-      "norm_label": "get_post()"
-    },
-    {
-      "label": "create_post()",
-      "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L108",
-      "_origin": "ast",
-      "id": "main_create_post",
-      "community": 3,
-      "norm_label": "create_post()"
-    },
-    {
-      "label": "general_exception_handler()",
-      "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L127",
-      "_origin": "ast",
-      "id": "main_general_exception_handler",
-      "community": 4,
-      "norm_label": "general_exception_handler()"
-    },
-    {
-      "label": "StarletteHTTPException",
-      "file_type": "code",
-      "source_file": "",
-      "source_location": "",
-      "_origin": "ast",
-      "id": "starlettehttpexception",
-      "community": 4,
-      "norm_label": "starlettehttpexception"
+      "norm_label": "_error_page()"
     },
     {
       "label": "JSONResponse",
@@ -100,48 +60,708 @@
       "source_location": "",
       "_origin": "ast",
       "id": "jsonresponse",
-      "community": 4,
+      "community": 3,
       "norm_label": "jsonresponse"
     },
     {
-      "label": "validation_exception_handler()",
+      "label": "create_app()",
       "file_type": "code",
-      "source_file": "main.py",
-      "source_location": "L155",
+      "source_file": "app/main.py",
+      "source_location": "L29",
       "_origin": "ast",
-      "id": "main_validation_exception_handler",
-      "community": 4,
-      "norm_label": "validation_exception_handler()"
+      "id": "app_main_create_app",
+      "community": 3,
+      "norm_label": "create_app()"
     },
     {
-      "label": "RequestValidationError",
+      "label": "FastAPI",
       "file_type": "code",
       "source_file": "",
       "source_location": "",
       "_origin": "ast",
-      "id": "requestvalidationerror",
-      "community": 4,
-      "norm_label": "requestvalidationerror"
-    },
-    {
-      "label": "FastAPI automatically serializes the response to JSON",
-      "file_type": "rationale",
-      "source_file": "main.py",
-      "source_location": "L82",
-      "_origin": "ast",
-      "id": "main_rationale_82",
+      "id": "fastapi",
       "community": 3,
-      "norm_label": "fastapi automatically serializes the response to json"
+      "norm_label": "fastapi"
     },
     {
-      "label": "The code to handle the exception and return the appropriate response for both AP",
-      "file_type": "rationale",
-      "source_file": "main.py",
-      "source_location": "L128",
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "app/models/__init__.py",
+      "source_location": "L1",
       "_origin": "ast",
-      "id": "main_rationale_128",
+      "id": "models_init",
+      "community": 13,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "post.py",
+      "file_type": "code",
+      "source_file": "app/models/post.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "models_post",
+      "community": 13,
+      "norm_label": "post.py"
+    },
+    {
+      "label": "Post",
+      "file_type": "code",
+      "source_file": "app/models/post.py",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "models_post_post",
       "community": 4,
-      "norm_label": "the code to handle the exception and return the appropriate response for both ap"
+      "norm_label": "post"
+    },
+    {
+      "label": ".tags()",
+      "file_type": "code",
+      "source_file": "app/models/post.py",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "models_post_post_tags",
+      "community": 4,
+      "norm_label": ".tags()"
+    },
+    {
+      "label": "user.py",
+      "file_type": "code",
+      "source_file": "app/models/user.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "models_user",
+      "community": 13,
+      "norm_label": "user.py"
+    },
+    {
+      "label": "User",
+      "file_type": "code",
+      "source_file": "app/models/user.py",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "models_user_user",
+      "community": 8,
+      "norm_label": "user"
+    },
+    {
+      "label": ".__str__()",
+      "file_type": "code",
+      "source_file": "app/models/user.py",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "models_user_user_str",
+      "community": 8,
+      "norm_label": ".__str__()"
+    },
+    {
+      "label": ".image_path()",
+      "file_type": "code",
+      "source_file": "app/models/user.py",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "models_user_user_image_path",
+      "community": 8,
+      "norm_label": ".image_path()"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "app/providers/__init__.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "providers_init",
+      "community": 8,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "database.py",
+      "file_type": "code",
+      "source_file": "app/providers/database.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "providers_database",
+      "community": 13,
+      "norm_label": "database.py"
+    },
+    {
+      "label": "services.py",
+      "file_type": "code",
+      "source_file": "app/providers/services.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "providers_services",
+      "community": 8,
+      "norm_label": "services.py"
+    },
+    {
+      "label": "get_user_repository()",
+      "file_type": "code",
+      "source_file": "app/providers/services.py",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "providers_services_get_user_repository",
+      "community": 8,
+      "norm_label": "get_user_repository()"
+    },
+    {
+      "label": "DbSession",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "dbsession",
+      "community": 8,
+      "norm_label": "dbsession"
+    },
+    {
+      "label": "get_post_repository()",
+      "file_type": "code",
+      "source_file": "app/providers/services.py",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "providers_services_get_post_repository",
+      "community": 8,
+      "norm_label": "get_post_repository()"
+    },
+    {
+      "label": "get_user_service()",
+      "file_type": "code",
+      "source_file": "app/providers/services.py",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "providers_services_get_user_service",
+      "community": 8,
+      "norm_label": "get_user_service()"
+    },
+    {
+      "label": "Depends",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "depends",
+      "community": 3,
+      "norm_label": "depends"
+    },
+    {
+      "label": "get_post_service()",
+      "file_type": "code",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "providers_services_get_post_service",
+      "community": 8,
+      "norm_label": "get_post_service()"
+    },
+    {
+      "label": "post_repository.py",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "repositories_post_repository",
+      "community": 4,
+      "norm_label": "post_repository.py"
+    },
+    {
+      "label": "PostRepository",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository",
+      "community": 4,
+      "norm_label": "postrepository"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository_init",
+      "community": 13,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": "Session",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "session",
+      "community": 13,
+      "norm_label": "session"
+    },
+    {
+      "label": "._base_query()",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository_base_query",
+      "community": 4,
+      "norm_label": "._base_query()"
+    },
+    {
+      "label": ".list_all()",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository_list_all",
+      "community": 4,
+      "norm_label": ".list_all()"
+    },
+    {
+      "label": ".get_by_id()",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository_get_by_id",
+      "community": 4,
+      "norm_label": ".get_by_id()"
+    },
+    {
+      "label": ".list_by_user_id()",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository_list_by_user_id",
+      "community": 4,
+      "norm_label": ".list_by_user_id()"
+    },
+    {
+      "label": ".create()",
+      "file_type": "code",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "repositories_post_repository_postrepository_create",
+      "community": 4,
+      "norm_label": ".create()"
+    },
+    {
+      "label": "user_repository.py",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "repositories_user_repository",
+      "community": 8,
+      "norm_label": "user_repository.py"
+    },
+    {
+      "label": "UserRepository",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "repositories_user_repository_userrepository",
+      "community": 8,
+      "norm_label": "userrepository"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "repositories_user_repository_userrepository_init",
+      "community": 13,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": ".get_by_id()",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "repositories_user_repository_userrepository_get_by_id",
+      "community": 8,
+      "norm_label": ".get_by_id()"
+    },
+    {
+      "label": ".get_by_username_or_email()",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "repositories_user_repository_userrepository_get_by_username_or_email",
+      "community": 8,
+      "norm_label": ".get_by_username_or_email()"
+    },
+    {
+      "label": ".exists()",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "repositories_user_repository_userrepository_exists",
+      "community": 8,
+      "norm_label": ".exists()"
+    },
+    {
+      "label": ".create()",
+      "file_type": "code",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "repositories_user_repository_userrepository_create",
+      "community": 8,
+      "norm_label": ".create()"
+    },
+    {
+      "label": "__init__.py",
+      "file_type": "code",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "schemas_init",
+      "community": 11,
+      "norm_label": "__init__.py"
+    },
+    {
+      "label": "post.py",
+      "file_type": "code",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "schemas_post",
+      "community": 11,
+      "norm_label": "post.py"
+    },
+    {
+      "label": "PostBase",
+      "file_type": "code",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "schemas_post_postbase",
+      "community": 11,
+      "norm_label": "postbase"
+    },
+    {
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "basemodel",
+      "community": 11,
+      "norm_label": "basemodel"
+    },
+    {
+      "label": "PostCreate",
+      "file_type": "code",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "schemas_post_postcreate",
+      "community": 11,
+      "norm_label": "postcreate"
+    },
+    {
+      "label": "PostResponse",
+      "file_type": "code",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "schemas_post_postresponse",
+      "community": 11,
+      "norm_label": "postresponse"
+    },
+    {
+      "label": "user.py",
+      "file_type": "code",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "schemas_user",
+      "community": 11,
+      "norm_label": "user.py"
+    },
+    {
+      "label": "UserBase",
+      "file_type": "code",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "schemas_user_userbase",
+      "community": 11,
+      "norm_label": "userbase"
+    },
+    {
+      "label": "UserCreate",
+      "file_type": "code",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "schemas_user_usercreate",
+      "community": 11,
+      "norm_label": "usercreate"
+    },
+    {
+      "label": "UserResponse",
+      "file_type": "code",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "schemas_user_userresponse",
+      "community": 11,
+      "norm_label": "userresponse"
+    },
+    {
+      "label": "post_service.py",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "services_post_service",
+      "community": 4,
+      "norm_label": "post_service.py"
+    },
+    {
+      "label": "PostService",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "services_post_service_postservice",
+      "community": 3,
+      "norm_label": "postservice"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "services_post_service_postservice_init",
+      "community": 4,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": ".list_posts()",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "services_post_service_postservice_list_posts",
+      "community": 4,
+      "norm_label": ".list_posts()"
+    },
+    {
+      "label": ".get_post()",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "services_post_service_postservice_get_post",
+      "community": 4,
+      "norm_label": ".get_post()"
+    },
+    {
+      "label": ".list_posts_for_user()",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "services_post_service_postservice_list_posts_for_user",
+      "community": 4,
+      "norm_label": ".list_posts_for_user()"
+    },
+    {
+      "label": ".create_post()",
+      "file_type": "code",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "services_post_service_postservice_create_post",
+      "community": 4,
+      "norm_label": ".create_post()"
+    },
+    {
+      "label": "user_service.py",
+      "file_type": "code",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "services_user_service",
+      "community": 8,
+      "norm_label": "user_service.py"
+    },
+    {
+      "label": "UserService",
+      "file_type": "code",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "services_user_service_userservice",
+      "community": 8,
+      "norm_label": "userservice"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "services_user_service_userservice_init",
+      "community": 8,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": ".get_user()",
+      "file_type": "code",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "services_user_service_userservice_get_user",
+      "community": 4,
+      "norm_label": ".get_user()"
+    },
+    {
+      "label": ".create_user()",
+      "file_type": "code",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "services_user_service_userservice_create_user",
+      "community": 8,
+      "norm_label": ".create_user()"
+    },
+    {
+      "label": "config.py",
+      "file_type": "code",
+      "source_file": "config/config.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "config_config",
+      "community": 13,
+      "norm_label": "config.py"
+    },
+    {
+      "label": "NotFoundError",
+      "file_type": "code",
+      "source_file": "config/config.py",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "config_config_notfounderror",
+      "community": 4,
+      "norm_label": "notfounderror"
+    },
+    {
+      "label": "Exception",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "exception",
+      "community": 8,
+      "norm_label": "exception"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "config/config.py",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "config_config_notfounderror_init",
+      "community": 4,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": "ConflictError",
+      "file_type": "code",
+      "source_file": "config/config.py",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "config_config_conflicterror",
+      "community": 8,
+      "norm_label": "conflicterror"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "config/config.py",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "config_config_conflicterror_init",
+      "community": 4,
+      "norm_label": ".__init__()"
+    },
+    {
+      "label": "Settings",
+      "file_type": "code",
+      "source_file": "config/config.py",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "config_config_settings",
+      "community": 13,
+      "norm_label": "settings"
+    },
+    {
+      "label": "BaseSettings",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "basesettings",
+      "community": 13,
+      "norm_label": "basesettings"
+    },
+    {
+      "label": "database.py",
+      "file_type": "code",
+      "source_file": "config/database.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "config_database",
+      "community": 13,
+      "norm_label": "database.py"
+    },
+    {
+      "label": "Base",
+      "file_type": "code",
+      "source_file": "config/database.py",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "config_database_base",
+      "community": 13,
+      "norm_label": "base"
+    },
+    {
+      "label": "DeclarativeBase",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "declarativebase",
+      "community": 13,
+      "norm_label": "declarativebase"
+    },
+    {
+      "label": "get_db()",
+      "file_type": "code",
+      "source_file": "config/database.py",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "config_database_get_db",
+      "community": 13,
+      "norm_label": "get_db()"
+    },
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "main",
+      "community": 3,
+      "norm_label": "main.py"
     },
     {
       "label": "package.json",
@@ -247,74 +867,144 @@
       "norm_label": "blog"
     },
     {
-      "label": "schemas.py",
+      "label": "posts.py",
       "file_type": "code",
-      "source_file": "schemas.py",
+      "source_file": "routers/posts.py",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "schemas",
+      "id": "routers_posts",
       "community": 3,
-      "norm_label": "schemas.py"
+      "norm_label": "posts.py"
     },
     {
-      "label": "PostBase",
+      "label": "index()",
       "file_type": "code",
-      "source_file": "schemas.py",
-      "source_location": "L4",
+      "source_file": "routers/posts.py",
+      "source_location": "L13",
       "_origin": "ast",
-      "id": "schemas_postbase",
+      "id": "routers_posts_index",
       "community": 3,
-      "norm_label": "postbase"
+      "norm_label": "index()"
     },
     {
-      "label": "BaseModel",
+      "label": "get_post_service",
       "file_type": "code",
       "source_file": "",
       "source_location": "",
       "_origin": "ast",
-      "id": "basemodel",
+      "id": "get_post_service",
       "community": 3,
-      "norm_label": "basemodel"
+      "norm_label": "get_post_service"
     },
     {
-      "label": "PostCreate",
+      "label": "show()",
       "file_type": "code",
-      "source_file": "schemas.py",
-      "source_location": "L11",
+      "source_file": "routers/posts.py",
+      "source_location": "L20",
       "_origin": "ast",
-      "id": "schemas_postcreate",
+      "id": "routers_posts_show",
       "community": 3,
-      "norm_label": "postcreate"
+      "norm_label": "show()"
     },
     {
-      "label": "PostResponse",
+      "label": "store()",
       "file_type": "code",
-      "source_file": "schemas.py",
-      "source_location": "L15",
+      "source_file": "routers/posts.py",
+      "source_location": "L33",
       "_origin": "ast",
-      "id": "schemas_postresponse",
+      "id": "routers_posts_store",
       "community": 3,
-      "norm_label": "postresponse"
+      "norm_label": "store()"
     },
     {
-      "label": "Base model for a post. without default values means they are required.",
-      "file_type": "rationale",
-      "source_file": "schemas.py",
-      "source_location": "L5",
+      "label": "users.py",
+      "file_type": "code",
+      "source_file": "routers/users.py",
+      "source_location": "L1",
       "_origin": "ast",
-      "id": "schemas_rationale_5",
-      "community": 3,
-      "norm_label": "base model for a post. without default values means they are required."
+      "id": "routers_users",
+      "community": 11,
+      "norm_label": "users.py"
     },
     {
-      "label": "Response model for a post. ConfigDict is used to convert the model to a dictiona",
-      "file_type": "rationale",
-      "source_file": "schemas.py",
-      "source_location": "L16",
+      "label": "store()",
+      "file_type": "code",
+      "source_file": "routers/users.py",
+      "source_location": "L20",
       "_origin": "ast",
-      "id": "schemas_rationale_16",
+      "id": "routers_users_store",
+      "community": 11,
+      "norm_label": "store()"
+    },
+    {
+      "label": "get_user_service",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "get_user_service",
+      "community": 11,
+      "norm_label": "get_user_service"
+    },
+    {
+      "label": "show()",
+      "file_type": "code",
+      "source_file": "routers/users.py",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "routers_users_show",
+      "community": 11,
+      "norm_label": "show()"
+    },
+    {
+      "label": "posts()",
+      "file_type": "code",
+      "source_file": "routers/users.py",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "routers_users_posts",
       "community": 3,
-      "norm_label": "response model for a post. configdict is used to convert the model to a dictiona"
+      "norm_label": "posts()"
+    },
+    {
+      "label": "web.py",
+      "file_type": "code",
+      "source_file": "routers/web.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "routers_web",
+      "community": 3,
+      "norm_label": "web.py"
+    },
+    {
+      "label": "home()",
+      "file_type": "code",
+      "source_file": "routers/web.py",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "routers_web_home",
+      "community": 3,
+      "norm_label": "home()"
+    },
+    {
+      "label": "index()",
+      "file_type": "code",
+      "source_file": "routers/web.py",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "routers_web_index",
+      "community": 3,
+      "norm_label": "index()"
+    },
+    {
+      "label": "show()",
+      "file_type": "code",
+      "source_file": "routers/web.py",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "routers_web_show",
+      "community": 3,
+      "norm_label": "show()"
     },
     {
       "label": "utils.js",
@@ -363,7 +1053,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 0,
+      "community": 2,
       "norm_label": "readme.md"
     },
     {
@@ -373,14 +1063,14 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_blog_fastapi_tutorial",
-      "community": 0,
+      "community": 2,
       "norm_label": "blog \u2014 fastapi tutorial"
     },
     {
       "label": "Part 1 \u2014 Getting Started",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "readme_part_1_getting_started",
       "community": 0,
@@ -390,7 +1080,7 @@
       "label": "Prerequisites",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "readme_prerequisites",
       "community": 0,
@@ -400,7 +1090,7 @@
       "label": "Step 1 \u2014 Create the project",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "readme_step_1_create_the_project",
       "community": 0,
@@ -410,7 +1100,7 @@
       "label": "Step 2 \u2014 Install FastAPI",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "readme_step_2_install_fastapi",
       "community": 0,
@@ -420,7 +1110,7 @@
       "label": "Step 3 \u2014 Create the FastAPI application",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L65",
+      "source_location": "L66",
       "_origin": "ast",
       "id": "readme_step_3_create_the_fastapi_application",
       "community": 0,
@@ -430,7 +1120,7 @@
       "label": "Step 4 \u2014 Run the development server",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L79",
+      "source_location": "L80",
       "_origin": "ast",
       "id": "readme_step_4_run_the_development_server",
       "community": 0,
@@ -440,7 +1130,7 @@
       "label": "Step 5 \u2014 Explore automatic API documentation",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L97",
+      "source_location": "L98",
       "_origin": "ast",
       "id": "readme_step_5_explore_automatic_api_documentation",
       "community": 0,
@@ -450,7 +1140,7 @@
       "label": "Step 6 \u2014 Add dummy post data",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L110",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "readme_step_6_add_dummy_post_data",
       "community": 0,
@@ -460,7 +1150,7 @@
       "label": "Step 7 \u2014 Create a JSON API endpoint",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L141",
+      "source_location": "L142",
       "_origin": "ast",
       "id": "readme_step_7_create_a_json_api_endpoint",
       "community": 0,
@@ -470,7 +1160,7 @@
       "label": "Step 8 \u2014 Return HTML responses",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L164",
+      "source_location": "L165",
       "_origin": "ast",
       "id": "readme_step_8_return_html_responses",
       "community": 0,
@@ -480,7 +1170,7 @@
       "label": "Project structure (Part 1)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L192",
+      "source_location": "L193",
       "_origin": "ast",
       "id": "readme_project_structure_part_1",
       "community": 0,
@@ -490,7 +1180,7 @@
       "label": "Endpoints summary",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L204",
+      "source_location": "L205",
       "_origin": "ast",
       "id": "readme_endpoints_summary",
       "community": 0,
@@ -500,7 +1190,7 @@
       "label": "What we learned (Part 1)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L214",
+      "source_location": "L215",
       "_origin": "ast",
       "id": "readme_what_we_learned_part_1",
       "community": 0,
@@ -510,7 +1200,7 @@
       "label": "Part 2 \u2014 Templates, Static Files, and Single Post View",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L229",
+      "source_location": "L230",
       "_origin": "ast",
       "id": "readme_part_2_templates_static_files_and_single_post_view",
       "community": 1,
@@ -520,7 +1210,7 @@
       "label": "Step 1 \u2014 Install Jinja2",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L237",
+      "source_location": "L238",
       "_origin": "ast",
       "id": "readme_step_1_install_jinja2",
       "community": 1,
@@ -530,7 +1220,7 @@
       "label": "Step 2 \u2014 Set up Jinja2 templates",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L256",
+      "source_location": "L257",
       "_origin": "ast",
       "id": "readme_step_2_set_up_jinja2_templates",
       "community": 1,
@@ -540,7 +1230,7 @@
       "label": "Step 3 \u2014 Serve static files",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L278",
+      "source_location": "L279",
       "_origin": "ast",
       "id": "readme_step_3_serve_static_files",
       "community": 1,
@@ -550,7 +1240,7 @@
       "label": "Step 4 \u2014 Set up Tailwind CSS",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L305",
+      "source_location": "L306",
       "_origin": "ast",
       "id": "readme_step_4_set_up_tailwind_css",
       "community": 1,
@@ -560,7 +1250,7 @@
       "label": "Step 5 \u2014 Create a base layout template",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L346",
+      "source_location": "L347",
       "_origin": "ast",
       "id": "readme_step_5_create_a_base_layout_template",
       "community": 1,
@@ -570,7 +1260,7 @@
       "label": "Step 6 \u2014 Build the home page (post list)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L380",
+      "source_location": "L381",
       "_origin": "ast",
       "id": "readme_step_6_build_the_home_page_post_list",
       "community": 1,
@@ -580,7 +1270,7 @@
       "label": "Step 7 \u2014 Name your routes for `url_for()`",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L424",
+      "source_location": "L425",
       "_origin": "ast",
       "id": "readme_step_7_name_your_routes_for_url_for",
       "community": 1,
@@ -590,7 +1280,7 @@
       "label": "Step 8 \u2014 Add a single post view with path parameters",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L449",
+      "source_location": "L450",
       "_origin": "ast",
       "id": "readme_step_8_add_a_single_post_view_with_path_parameters",
       "community": 1,
@@ -600,7 +1290,7 @@
       "label": "Step 9 \u2014 Add client-side interactivity",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L488",
+      "source_location": "L489",
       "_origin": "ast",
       "id": "readme_step_9_add_client_side_interactivity",
       "community": 1,
@@ -610,7 +1300,7 @@
       "label": "Project structure (Part 2)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L504",
+      "source_location": "L505",
       "_origin": "ast",
       "id": "readme_project_structure_part_2",
       "community": 1,
@@ -620,7 +1310,7 @@
       "label": "Running the app (Part 2)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L531",
+      "source_location": "L532",
       "_origin": "ast",
       "id": "readme_running_the_app_part_2",
       "community": 1,
@@ -630,7 +1320,7 @@
       "label": "Endpoints summary (after Part 2)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L549",
+      "source_location": "L550",
       "_origin": "ast",
       "id": "readme_endpoints_summary_after_part_2",
       "community": 1,
@@ -640,7 +1330,7 @@
       "label": "What we learned (Part 2)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L560",
+      "source_location": "L561",
       "_origin": "ast",
       "id": "readme_what_we_learned_part_2",
       "community": 1,
@@ -650,7 +1340,7 @@
       "label": "Part 3 \u2014 Path Parameters, Validation, and Custom Error Handling",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L574",
+      "source_location": "L575",
       "_origin": "ast",
       "id": "readme_part_3_path_parameters_validation_and_custom_error_handling",
       "community": 2,
@@ -660,7 +1350,7 @@
       "label": "Step 1 \u2014 Separate web and API routes for a single post",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L582",
+      "source_location": "L583",
       "_origin": "ast",
       "id": "readme_step_1_separate_web_and_api_routes_for_a_single_post",
       "community": 2,
@@ -670,7 +1360,7 @@
       "label": "Step 2 \u2014 Raise HTTPException for missing resources",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L667",
+      "source_location": "L668",
       "_origin": "ast",
       "id": "readme_step_2_raise_httpexception_for_missing_resources",
       "community": 2,
@@ -680,7 +1370,7 @@
       "label": "Step 3 \u2014 Understand automatic path parameter validation",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L693",
+      "source_location": "L694",
       "_origin": "ast",
       "id": "readme_step_3_understand_automatic_path_parameter_validation",
       "community": 2,
@@ -690,7 +1380,7 @@
       "label": "Step 4 \u2014 Register a custom HTTP exception handler",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L711",
+      "source_location": "L712",
       "_origin": "ast",
       "id": "readme_step_4_register_a_custom_http_exception_handler",
       "community": 2,
@@ -700,7 +1390,7 @@
       "label": "Step 5 \u2014 Handle validation errors the same way",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L767",
+      "source_location": "L768",
       "_origin": "ast",
       "id": "readme_step_5_handle_validation_errors_the_same_way",
       "community": 2,
@@ -710,7 +1400,7 @@
       "label": "Step 6 \u2014 Create a styled error page template",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L817",
+      "source_location": "L818",
       "_origin": "ast",
       "id": "readme_step_6_create_a_styled_error_page_template",
       "community": 2,
@@ -720,7 +1410,7 @@
       "label": "Step 7 \u2014 Update imports",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L863",
+      "source_location": "L864",
       "_origin": "ast",
       "id": "readme_step_7_update_imports",
       "community": 2,
@@ -730,7 +1420,7 @@
       "label": "Project structure (Part 3)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L884",
+      "source_location": "L885",
       "_origin": "ast",
       "id": "readme_project_structure_part_3",
       "community": 2,
@@ -740,7 +1430,7 @@
       "label": "Endpoints summary (after Part 3)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L905",
+      "source_location": "L906",
       "_origin": "ast",
       "id": "readme_endpoints_summary_after_part_3",
       "community": 2,
@@ -750,7 +1440,7 @@
       "label": "Error handling summary",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L917",
+      "source_location": "L918",
       "_origin": "ast",
       "id": "readme_error_handling_summary",
       "community": 2,
@@ -760,17 +1450,107 @@
       "label": "What we learned (Part 3)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L927",
+      "source_location": "L928",
       "_origin": "ast",
       "id": "readme_what_we_learned_part_3",
       "community": 2,
       "norm_label": "what we learned (part 3)"
     },
     {
+      "label": "Part 4 \u2014 Pydantic Schemas for Request and Response Validation",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L943",
+      "_origin": "ast",
+      "id": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "community": 2,
+      "norm_label": "part 4 \u2014 pydantic schemas for request and response validation"
+    },
+    {
+      "label": "Step 1 \u2014 Create `schemas.py`",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L953",
+      "_origin": "ast",
+      "id": "readme_step_1_create_schemas_py",
+      "community": 2,
+      "norm_label": "step 1 \u2014 create `schemas.py`"
+    },
+    {
+      "label": "Step 2 \u2014 Field validation with `Field`",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1000",
+      "_origin": "ast",
+      "id": "readme_step_2_field_validation_with_field",
+      "community": 2,
+      "norm_label": "step 2 \u2014 field validation with `field`"
+    },
+    {
+      "label": "Step 3 \u2014 Add `response_model` to GET endpoints",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1014",
+      "_origin": "ast",
+      "id": "readme_step_3_add_response_model_to_get_endpoints",
+      "community": 2,
+      "norm_label": "step 3 \u2014 add `response_model` to get endpoints"
+    },
+    {
+      "label": "Step 4 \u2014 Create a POST endpoint",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1053",
+      "_origin": "ast",
+      "id": "readme_step_4_create_a_post_endpoint",
+      "community": 2,
+      "norm_label": "step 4 \u2014 create a post endpoint"
+    },
+    {
+      "label": "Request vs response contract",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1108",
+      "_origin": "ast",
+      "id": "readme_request_vs_response_contract",
+      "community": 2,
+      "norm_label": "request vs response contract"
+    },
+    {
+      "label": "Project structure (Part 4)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1125",
+      "_origin": "ast",
+      "id": "readme_project_structure_part_4",
+      "community": 2,
+      "norm_label": "project structure (part 4)"
+    },
+    {
+      "label": "Endpoints summary (after Part 4)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1138",
+      "_origin": "ast",
+      "id": "readme_endpoints_summary_after_part_4",
+      "community": 2,
+      "norm_label": "endpoints summary (after part 4)"
+    },
+    {
+      "label": "What we learned (Part 4)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1151",
+      "_origin": "ast",
+      "id": "readme_what_we_learned_part_4",
+      "community": 2,
+      "norm_label": "what we learned (part 4)"
+    },
+    {
       "label": "What's next (later parts)",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L940",
+      "source_location": "L1163",
       "_origin": "ast",
       "id": "readme_what_s_next_later_parts",
       "community": 2,
@@ -780,7 +1560,7 @@
       "label": "Reference",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L954",
+      "source_location": "L1176",
       "_origin": "ast",
       "id": "readme_reference",
       "community": 2,
@@ -791,223 +1571,2218 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L108",
+      "source_file": "app/main.py",
+      "source_location": "L29",
       "weight": 1.0,
-      "source": "main",
-      "target": "main_create_post",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "app_main",
+      "target": "app_main_create_app"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L127",
+      "source_file": "app/main.py",
+      "source_location": "L16",
       "weight": 1.0,
-      "source": "main",
-      "target": "main_general_exception_handler",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "app_main",
+      "target": "app_main_error_page"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L87",
+      "source_file": "app/main.py",
+      "source_location": "L12",
       "weight": 1.0,
-      "source": "main",
-      "target": "main_get_post",
+      "confidence_score": 1.0,
+      "source": "app_main",
+      "target": "app_main_is_api_request"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/main.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "app_main",
+      "target": "config_config",
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
+      "relation": "imports",
+      "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L81",
+      "source_file": "app/main.py",
+      "source_location": "L8",
       "weight": 1.0,
-      "source": "main",
-      "target": "main_get_posts",
+      "source": "app_main",
+      "target": "config_config_conflicterror",
       "confidence_score": 1.0
     },
     {
-      "relation": "contains",
+      "relation": "imports",
+      "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L47",
+      "source_file": "app/main.py",
+      "source_location": "L8",
       "weight": 1.0,
-      "source": "main",
-      "target": "main_home",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L58",
-      "weight": 1.0,
-      "source": "main",
-      "target": "main_show_post",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L155",
-      "weight": 1.0,
-      "source": "main",
-      "target": "main_validation_exception_handler",
+      "source": "app_main",
+      "target": "config_config_notfounderror",
       "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L8",
+      "source_file": "app/main.py",
+      "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_main",
+      "target": "fastapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "main",
-      "target": "schemas",
+      "target": "app_main"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/main.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_main_is_api_request",
+      "target": "request"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/main.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_main_error_page",
+      "target": "request"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_home",
+      "target": "request"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_index",
+      "target": "request"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_show",
+      "target": "request"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/main.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_main_error_page",
+      "target": "jsonresponse"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/main.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "app_main_create_app",
+      "target": "fastapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "main",
+      "target": "fastapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "fastapi",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "fastapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "fastapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web",
+      "target": "fastapi"
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_init",
+      "target": "models_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_init",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/__init__.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_init",
+      "target": "models_user"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/__init__.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_init",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/post.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "models_post",
+      "target": "config_database",
       "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L8",
+      "source_file": "app/models/post.py",
+      "source_location": "L6",
       "weight": 1.0,
-      "source": "main",
-      "target": "schemas_postcreate",
+      "source": "models_post",
+      "target": "config_database_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/post.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_post",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/post.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_post",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/models/post.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "source": "models_post_post",
+      "target": "config_database_base",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/post.py",
+      "source_location": "L34",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_post_post",
+      "target": "models_post_post_tags"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/models/post.py",
+      "source_location": "L7",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "models_post_post",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L4",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "repositories_post_repository_postrepository",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_create",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_get_by_id",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_list_all",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_list_by_user_id",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L2",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "services_post_service_postservice",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_create_post",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_get_post",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_list_posts",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_list_posts_for_user",
+      "target": "models_post_post"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/user.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "models_user",
+      "target": "config_database",
       "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
+      "source_file": "app/models/user.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "models_user",
+      "target": "config_database_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/user.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_user",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/models/user.py",
+      "source_location": "L6",
+      "weight": 0.8,
+      "source": "models_user_user",
+      "target": "config_database_base",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/user.py",
+      "source_location": "L32",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_user_user",
+      "target": "models_user_user_image_path"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/models/user.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "models_user_user",
+      "target": "models_user_user_str"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L4",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "repositories_user_repository_userrepository",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository_create",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository_get_by_id",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository_get_by_username_or_email",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L2",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "services_user_service_userservice",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice_create_user",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice_get_user",
+      "target": "models_user_user"
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "providers_init",
+      "target": "providers_services",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "providers_init",
+      "target": "providers_services_get_post_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "providers_init",
+      "target": "providers_services_get_user_repository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "providers_init",
+      "target": "providers_services_get_user_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/database.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "providers_database",
+      "target": "config_database",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/database.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "providers_database",
+      "target": "config_database_get_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "providers_services_get_post_repository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "providers_services_get_post_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "providers_services_get_user_repository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "providers_services_get_user_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "repositories_post_repository_postrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
       "source_location": "L8",
       "weight": 1.0,
-      "source": "main",
-      "target": "schemas_postresponse",
+      "source": "providers_services",
+      "target": "repositories_user_repository_userrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "services_post_service_postservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "providers_services",
+      "target": "services_user_service_userservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services_get_post_service",
+      "target": "providers_services_get_user_repository",
       "confidence_score": 1.0
     },
     {
       "relation": "references",
       "context": "parameter_type",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L47",
+      "source_file": "app/providers/services.py",
+      "source_location": "L15",
       "weight": 1.0,
-      "source": "main_home",
-      "target": "request",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "context": "parameter_type",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L127",
-      "weight": 1.0,
-      "source": "main_general_exception_handler",
-      "target": "request",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "context": "parameter_type",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L58",
-      "weight": 1.0,
-      "source": "main_show_post",
-      "target": "request",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "context": "parameter_type",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L155",
-      "weight": 1.0,
-      "source": "main_validation_exception_handler",
-      "target": "request",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "rationale_for",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L82",
-      "weight": 1.0,
-      "source": "main_rationale_82",
-      "target": "main_get_posts",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "context": "parameter_type",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L108",
-      "weight": 1.0,
-      "source": "main_create_post",
-      "target": "schemas_postcreate",
+      "source": "providers_services_get_user_repository",
+      "target": "dbsession",
       "confidence_score": 1.0
     },
     {
       "relation": "references",
       "context": "return_type",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L127",
+      "source_file": "app/providers/services.py",
+      "source_location": "L15",
       "weight": 1.0,
-      "source": "main_general_exception_handler",
-      "target": "jsonresponse",
+      "source": "providers_services_get_user_repository",
+      "target": "repositories_user_repository_userrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "providers_services_get_user_service",
+      "target": "providers_services_get_user_repository",
       "confidence_score": 1.0
     },
     {
       "relation": "references",
       "context": "parameter_type",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L127",
+      "source_file": "app/providers/services.py",
+      "source_location": "L19",
       "weight": 1.0,
-      "source": "main_general_exception_handler",
-      "target": "starlettehttpexception",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "rationale_for",
-      "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L128",
-      "weight": 1.0,
-      "source": "main_rationale_128",
-      "target": "main_general_exception_handler",
+      "source": "providers_services_get_post_repository",
+      "target": "dbsession",
       "confidence_score": 1.0
     },
     {
       "relation": "references",
       "context": "return_type",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L155",
+      "source_file": "app/providers/services.py",
+      "source_location": "L19",
       "weight": 1.0,
-      "source": "main_validation_exception_handler",
-      "target": "jsonresponse",
+      "source": "providers_services_get_post_repository",
+      "target": "repositories_post_repository_postrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services_get_post_service",
+      "target": "providers_services_get_post_repository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "providers_services_get_user_service",
+      "target": "depends",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "providers_services_get_user_service",
+      "target": "repositories_user_repository_userrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "providers_services_get_user_service",
+      "target": "services_user_service_userservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routers/users.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "routers_users",
+      "target": "providers_services_get_user_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services_get_post_service",
+      "target": "depends",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_index",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_show",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_store",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_posts",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_show",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_store",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_home",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_index",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_show",
+      "target": "depends"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services_get_post_service",
+      "target": "repositories_post_repository_postrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services_get_post_service",
+      "target": "repositories_user_repository_userrepository",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/providers/services.py",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "providers_services_get_post_service",
+      "target": "services_post_service_postservice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routers/posts.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "routers_posts",
+      "target": "providers_services_get_post_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routers/users.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "routers_users",
+      "target": "providers_services_get_post_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routers/web.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "routers_web",
+      "target": "providers_services_get_post_service",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository",
+      "target": "repositories_post_repository_postrepository"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository",
+      "target": "repositories_post_repository_postrepository_base_query"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository",
+      "target": "repositories_post_repository_postrepository_create"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository",
+      "target": "repositories_post_repository_postrepository_get_by_id"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository",
+      "target": "repositories_post_repository_postrepository_init"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository",
+      "target": "repositories_post_repository_postrepository_list_all"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository",
+      "target": "repositories_post_repository_postrepository_list_by_user_id"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service",
+      "target": "repositories_post_repository_postrepository"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L3",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "services_post_service_postservice",
+      "target": "repositories_post_repository_postrepository"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_init",
+      "target": "repositories_post_repository_postrepository"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_init",
+      "target": "session"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "config/database.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "config_database_get_db",
+      "target": "session",
       "confidence_score": 1.0
     },
     {
       "relation": "references",
       "context": "parameter_type",
       "confidence": "EXTRACTED",
-      "source_file": "main.py",
-      "source_location": "L155",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L8",
       "weight": 1.0,
-      "source": "main_validation_exception_handler",
-      "target": "requestvalidationerror",
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository_init",
+      "target": "session"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_create",
+      "target": "repositories_post_repository_postrepository_base_query"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_get_by_id",
+      "target": "repositories_post_repository_postrepository_base_query"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_list_all",
+      "target": "repositories_post_repository_postrepository_base_query"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/post_repository.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_post_repository_postrepository_list_by_user_id",
+      "target": "repositories_post_repository_postrepository_base_query"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository",
+      "target": "repositories_user_repository_userrepository_create"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository",
+      "target": "repositories_user_repository_userrepository_exists"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository",
+      "target": "repositories_user_repository_userrepository_get_by_id"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository",
+      "target": "repositories_user_repository_userrepository_get_by_username_or_email"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/repositories/user_repository.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "repositories_user_repository_userrepository",
+      "target": "repositories_user_repository_userrepository_init"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L4",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "services_post_service_postservice",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_init",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L3",
+      "weight": 0.8,
+      "confidence_score": 0.5,
+      "source": "services_user_service_userservice",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice_init",
+      "target": "repositories_user_repository_userrepository"
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_init",
+      "target": "schemas_post"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_init",
+      "target": "schemas_post_postcreate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_init",
+      "target": "schemas_post_postresponse"
+    },
+    {
+      "relation": "re_exports",
+      "context": "export",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_init",
+      "target": "schemas_user"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_init",
+      "target": "schemas_user_usercreate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/__init__.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_init",
+      "target": "schemas_user_userresponse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post",
+      "target": "schemas_post_postbase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post",
+      "target": "schemas_post_postcreate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post",
+      "target": "schemas_post_postresponse"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post",
+      "target": "schemas_user_userresponse"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post_postbase",
+      "target": "basemodel"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post_postcreate",
+      "target": "schemas_post_postbase"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/post.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_post_postresponse",
+      "target": "schemas_post_postbase"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_user_userbase",
+      "target": "basemodel"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "schemas_post_postcreate"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_store",
+      "target": "schemas_post_postcreate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service",
+      "target": "schemas_post_postcreate"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice_create_post",
+      "target": "schemas_post_postcreate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "schemas_post_postresponse"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "schemas_post_postresponse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_user",
+      "target": "schemas_user_userbase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_user",
+      "target": "schemas_user_usercreate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_user",
+      "target": "schemas_user_userresponse"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_user_usercreate",
+      "target": "schemas_user_userbase"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "app/schemas/user.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "schemas_user_userresponse",
+      "target": "schemas_user_userbase"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "schemas_user_usercreate"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_store",
+      "target": "schemas_user_usercreate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service",
+      "target": "schemas_user_usercreate"
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice_create_user",
+      "target": "schemas_user_usercreate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "schemas_user_userresponse"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_post_service",
+      "target": "config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_post_service",
+      "target": "config_config_notfounderror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_index",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_show",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_posts_store",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_posts",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_home",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_index",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_show",
+      "target": "services_post_service_postservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L1",
+      "weight": 0.8,
+      "source": "services_post_service_postservice",
+      "target": "config_config_notfounderror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice",
+      "target": "services_post_service_postservice_create_post"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice",
+      "target": "services_post_service_postservice_get_post"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice",
+      "target": "services_post_service_postservice_init"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice",
+      "target": "services_post_service_postservice_list_posts"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/post_service.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_post_service_postservice",
+      "target": "services_post_service_postservice_list_posts_for_user"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/services/post_service.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "services_post_service_postservice_get_post",
+      "target": "config_config_notfounderror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/services/post_service.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "services_post_service_postservice_list_posts_for_user",
+      "target": "config_config_notfounderror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/services/post_service.py",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "services_post_service_postservice_create_post",
+      "target": "config_config_notfounderror"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_user_service",
+      "target": "config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_user_service",
+      "target": "config_config_conflicterror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "services_user_service",
+      "target": "config_config_notfounderror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service",
+      "target": "services_user_service_userservice"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "services_user_service_userservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_show",
+      "target": "services_user_service_userservice"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_store",
+      "target": "services_user_service_userservice"
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L1",
+      "weight": 0.8,
+      "source": "services_user_service_userservice",
+      "target": "config_config_conflicterror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L1",
+      "weight": 0.8,
+      "source": "services_user_service_userservice",
+      "target": "config_config_notfounderror",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice",
+      "target": "services_user_service_userservice_create_user"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice",
+      "target": "services_user_service_userservice_get_user"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/services/user_service.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "services_user_service_userservice",
+      "target": "services_user_service_userservice_init"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/services/user_service.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "services_user_service_userservice_get_user",
+      "target": "config_config_notfounderror"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/services/user_service.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "services_user_service_userservice_create_user",
+      "target": "config_config_conflicterror"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "config_config",
+      "target": "config_config_conflicterror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "config_config",
+      "target": "config_config_notfounderror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "config_config",
+      "target": "config_config_settings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "config/database.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "config_database",
+      "target": "config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "routers/web.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "routers_web",
+      "target": "config_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "config_config_notfounderror",
+      "target": "config_config_notfounderror_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "config_config_notfounderror",
+      "target": "exception",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "config_config_conflicterror",
+      "target": "exception",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "config_config_notfounderror_init",
+      "target": "config_config_conflicterror_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "config_config_conflicterror",
+      "target": "config_config_conflicterror_init",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "config/config.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "config_config_settings",
+      "target": "basesettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "config/database.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "config_database",
+      "target": "config_database_base",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "config/database.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "config_database",
+      "target": "config_database_get_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "config/database.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "config_database_base",
+      "target": "declarativebase",
       "confidence_score": 1.0
     },
     {
@@ -1016,9 +3791,9 @@
       "source_file": "package.json",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_devdependencies",
-      "confidence_score": 1.0
+      "target": "package_devdependencies"
     },
     {
       "relation": "contains",
@@ -1026,9 +3801,9 @@
       "source_file": "package.json",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_name",
-      "confidence_score": 1.0
+      "target": "package_name"
     },
     {
       "relation": "contains",
@@ -1036,9 +3811,9 @@
       "source_file": "package.json",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_private",
-      "confidence_score": 1.0
+      "target": "package_private"
     },
     {
       "relation": "contains",
@@ -1046,9 +3821,9 @@
       "source_file": "package.json",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_scripts",
-      "confidence_score": 1.0
+      "target": "package_scripts"
     },
     {
       "relation": "contains",
@@ -1056,9 +3831,9 @@
       "source_file": "package.json",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_scripts",
-      "target": "package_scripts_build",
-      "confidence_score": 1.0
+      "target": "package_scripts_build"
     },
     {
       "relation": "contains",
@@ -1066,9 +3841,9 @@
       "source_file": "package.json",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_scripts",
-      "target": "package_scripts_dev",
-      "confidence_score": 1.0
+      "target": "package_scripts_dev"
     },
     {
       "relation": "contains",
@@ -1076,9 +3851,9 @@
       "source_file": "package.json",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_devdependencies",
-      "target": "package_devdependencies_tailwindcss",
-      "confidence_score": 1.0
+      "target": "package_devdependencies_tailwindcss"
     },
     {
       "relation": "contains",
@@ -1086,89 +3861,198 @@
       "source_file": "package.json",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_devdependencies",
-      "target": "package_devdependencies_tailwindcss_cli",
-      "confidence_score": 1.0
+      "target": "package_devdependencies_tailwindcss_cli"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L4",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L13",
       "weight": 1.0,
-      "source": "schemas",
-      "target": "schemas_postbase",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "routers_posts_index"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L11",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L20",
       "weight": 1.0,
-      "source": "schemas",
-      "target": "schemas_postcreate",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "routers_posts_show"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L15",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L33",
       "weight": 1.0,
-      "source": "schemas",
-      "target": "schemas_postresponse",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_posts",
+      "target": "routers_posts_store"
     },
     {
-      "relation": "inherits",
+      "relation": "references",
+      "context": "generic_arg",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L4",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L13",
       "weight": 1.0,
-      "source": "schemas_postbase",
-      "target": "basemodel",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_posts_index",
+      "target": "get_post_service"
     },
     {
-      "relation": "inherits",
+      "relation": "references",
+      "context": "generic_arg",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L11",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L20",
       "weight": 1.0,
-      "source": "schemas_postcreate",
-      "target": "schemas_postbase",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_posts_show",
+      "target": "get_post_service"
     },
     {
-      "relation": "inherits",
+      "relation": "references",
+      "context": "generic_arg",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L15",
+      "source_file": "app/routers/posts.py",
+      "source_location": "L33",
       "weight": 1.0,
-      "source": "schemas_postresponse",
-      "target": "schemas_postbase",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_posts_store",
+      "target": "get_post_service"
     },
     {
-      "relation": "rationale_for",
+      "relation": "references",
+      "context": "generic_arg",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L5",
+      "source_file": "app/routers/users.py",
+      "source_location": "L40",
       "weight": 1.0,
-      "source": "schemas_rationale_5",
-      "target": "schemas_postbase",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_users_posts",
+      "target": "get_post_service"
     },
     {
-      "relation": "rationale_for",
+      "relation": "references",
+      "context": "generic_arg",
       "confidence": "EXTRACTED",
-      "source_file": "schemas.py",
-      "source_location": "L16",
+      "source_file": "app/routers/web.py",
+      "source_location": "L13",
       "weight": 1.0,
-      "source": "schemas_rationale_16",
-      "target": "schemas_postresponse",
-      "confidence_score": 1.0
+      "confidence_score": 1.0,
+      "source": "routers_web_home",
+      "target": "get_post_service"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_index",
+      "target": "get_post_service"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web_show",
+      "target": "get_post_service"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "routers_users_posts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "routers_users_show"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users",
+      "target": "routers_users_store"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_store",
+      "target": "get_user_service"
+    },
+    {
+      "relation": "references",
+      "context": "generic_arg",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/users.py",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_users_show",
+      "target": "get_user_service"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web",
+      "target": "routers_web_home"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web",
+      "target": "routers_web_index"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/routers/web.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "routers_web",
+      "target": "routers_web_show"
     },
     {
       "relation": "contains",
@@ -1176,9 +4060,9 @@
       "source_file": "static/js/utils.js",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "js_utils",
-      "target": "js_utils_initmobilenav",
-      "confidence_score": 1.0
+      "target": "js_utils_initmobilenav"
     },
     {
       "relation": "contains",
@@ -1186,9 +4070,9 @@
       "source_file": "static/js/utils.js",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "js_utils",
-      "target": "js_utils_inittheme",
-      "confidence_score": 1.0
+      "target": "js_utils_inittheme"
     },
     {
       "relation": "contains",
@@ -1196,9 +4080,9 @@
       "source_file": "static/js/utils.js",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "js_utils",
-      "target": "js_utils_initthememenu",
-      "confidence_score": 1.0
+      "target": "js_utils_initthememenu"
     },
     {
       "relation": "contains",
@@ -1206,9 +4090,9 @@
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_blog_fastapi_tutorial",
-      "confidence_score": 1.0
+      "target": "readme_blog_fastapi_tutorial"
     },
     {
       "relation": "contains",
@@ -1216,9 +4100,9 @@
       "source_file": "README.md",
       "source_location": "L13",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_part_1_getting_started",
-      "confidence_score": 1.0
+      "target": "readme_part_1_getting_started"
     },
     {
       "relation": "contains",
@@ -1226,9 +4110,9 @@
       "source_file": "README.md",
       "source_location": "L229",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_part_2_templates_static_files_and_single_post_view",
-      "confidence_score": 1.0
+      "target": "readme_part_2_templates_static_files_and_single_post_view"
     },
     {
       "relation": "contains",
@@ -1236,9 +4120,19 @@
       "source_file": "README.md",
       "source_location": "L574",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme",
-      "target": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "confidence_score": 1.0
+      "target": "readme_part_3_path_parameters_validation_and_custom_error_handling"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L943",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme",
+      "target": "readme_part_4_pydantic_schemas_for_request_and_response_validation"
     },
     {
       "relation": "contains",
@@ -1246,9 +4140,9 @@
       "source_file": "README.md",
       "source_location": "L204",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_endpoints_summary",
-      "confidence_score": 1.0
+      "target": "readme_endpoints_summary"
     },
     {
       "relation": "contains",
@@ -1256,9 +4150,9 @@
       "source_file": "README.md",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_prerequisites",
-      "confidence_score": 1.0
+      "target": "readme_prerequisites"
     },
     {
       "relation": "contains",
@@ -1266,9 +4160,9 @@
       "source_file": "README.md",
       "source_location": "L192",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_project_structure_part_1",
-      "confidence_score": 1.0
+      "target": "readme_project_structure_part_1"
     },
     {
       "relation": "contains",
@@ -1276,9 +4170,9 @@
       "source_file": "README.md",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_1_create_the_project",
-      "confidence_score": 1.0
+      "target": "readme_step_1_create_the_project"
     },
     {
       "relation": "contains",
@@ -1286,9 +4180,9 @@
       "source_file": "README.md",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_2_install_fastapi",
-      "confidence_score": 1.0
+      "target": "readme_step_2_install_fastapi"
     },
     {
       "relation": "contains",
@@ -1296,9 +4190,9 @@
       "source_file": "README.md",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_3_create_the_fastapi_application",
-      "confidence_score": 1.0
+      "target": "readme_step_3_create_the_fastapi_application"
     },
     {
       "relation": "contains",
@@ -1306,9 +4200,9 @@
       "source_file": "README.md",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_4_run_the_development_server",
-      "confidence_score": 1.0
+      "target": "readme_step_4_run_the_development_server"
     },
     {
       "relation": "contains",
@@ -1316,9 +4210,9 @@
       "source_file": "README.md",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_5_explore_automatic_api_documentation",
-      "confidence_score": 1.0
+      "target": "readme_step_5_explore_automatic_api_documentation"
     },
     {
       "relation": "contains",
@@ -1326,9 +4220,9 @@
       "source_file": "README.md",
       "source_location": "L110",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_6_add_dummy_post_data",
-      "confidence_score": 1.0
+      "target": "readme_step_6_add_dummy_post_data"
     },
     {
       "relation": "contains",
@@ -1336,9 +4230,9 @@
       "source_file": "README.md",
       "source_location": "L141",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_7_create_a_json_api_endpoint",
-      "confidence_score": 1.0
+      "target": "readme_step_7_create_a_json_api_endpoint"
     },
     {
       "relation": "contains",
@@ -1346,9 +4240,9 @@
       "source_file": "README.md",
       "source_location": "L164",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_step_8_return_html_responses",
-      "confidence_score": 1.0
+      "target": "readme_step_8_return_html_responses"
     },
     {
       "relation": "contains",
@@ -1356,9 +4250,9 @@
       "source_file": "README.md",
       "source_location": "L214",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_1_getting_started",
-      "target": "readme_what_we_learned_part_1",
-      "confidence_score": 1.0
+      "target": "readme_what_we_learned_part_1"
     },
     {
       "relation": "contains",
@@ -1366,9 +4260,9 @@
       "source_file": "README.md",
       "source_location": "L549",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_endpoints_summary_after_part_2",
-      "confidence_score": 1.0
+      "target": "readme_endpoints_summary_after_part_2"
     },
     {
       "relation": "contains",
@@ -1376,9 +4270,9 @@
       "source_file": "README.md",
       "source_location": "L504",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_project_structure_part_2",
-      "confidence_score": 1.0
+      "target": "readme_project_structure_part_2"
     },
     {
       "relation": "contains",
@@ -1386,9 +4280,9 @@
       "source_file": "README.md",
       "source_location": "L531",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_running_the_app_part_2",
-      "confidence_score": 1.0
+      "target": "readme_running_the_app_part_2"
     },
     {
       "relation": "contains",
@@ -1396,9 +4290,9 @@
       "source_file": "README.md",
       "source_location": "L237",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_1_install_jinja2",
-      "confidence_score": 1.0
+      "target": "readme_step_1_install_jinja2"
     },
     {
       "relation": "contains",
@@ -1406,9 +4300,9 @@
       "source_file": "README.md",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_2_set_up_jinja2_templates",
-      "confidence_score": 1.0
+      "target": "readme_step_2_set_up_jinja2_templates"
     },
     {
       "relation": "contains",
@@ -1416,9 +4310,9 @@
       "source_file": "README.md",
       "source_location": "L278",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_3_serve_static_files",
-      "confidence_score": 1.0
+      "target": "readme_step_3_serve_static_files"
     },
     {
       "relation": "contains",
@@ -1426,9 +4320,9 @@
       "source_file": "README.md",
       "source_location": "L305",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_4_set_up_tailwind_css",
-      "confidence_score": 1.0
+      "target": "readme_step_4_set_up_tailwind_css"
     },
     {
       "relation": "contains",
@@ -1436,9 +4330,9 @@
       "source_file": "README.md",
       "source_location": "L346",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_5_create_a_base_layout_template",
-      "confidence_score": 1.0
+      "target": "readme_step_5_create_a_base_layout_template"
     },
     {
       "relation": "contains",
@@ -1446,9 +4340,9 @@
       "source_file": "README.md",
       "source_location": "L380",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_6_build_the_home_page_post_list",
-      "confidence_score": 1.0
+      "target": "readme_step_6_build_the_home_page_post_list"
     },
     {
       "relation": "contains",
@@ -1456,9 +4350,9 @@
       "source_file": "README.md",
       "source_location": "L424",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_7_name_your_routes_for_url_for",
-      "confidence_score": 1.0
+      "target": "readme_step_7_name_your_routes_for_url_for"
     },
     {
       "relation": "contains",
@@ -1466,9 +4360,9 @@
       "source_file": "README.md",
       "source_location": "L449",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_8_add_a_single_post_view_with_path_parameters",
-      "confidence_score": 1.0
+      "target": "readme_step_8_add_a_single_post_view_with_path_parameters"
     },
     {
       "relation": "contains",
@@ -1476,9 +4370,9 @@
       "source_file": "README.md",
       "source_location": "L488",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_step_9_add_client_side_interactivity",
-      "confidence_score": 1.0
+      "target": "readme_step_9_add_client_side_interactivity"
     },
     {
       "relation": "contains",
@@ -1486,9 +4380,9 @@
       "source_file": "README.md",
       "source_location": "L560",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_2_templates_static_files_and_single_post_view",
-      "target": "readme_what_we_learned_part_2",
-      "confidence_score": 1.0
+      "target": "readme_what_we_learned_part_2"
     },
     {
       "relation": "contains",
@@ -1496,9 +4390,9 @@
       "source_file": "README.md",
       "source_location": "L905",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_endpoints_summary_after_part_3",
-      "confidence_score": 1.0
+      "target": "readme_endpoints_summary_after_part_3"
     },
     {
       "relation": "contains",
@@ -1506,9 +4400,9 @@
       "source_file": "README.md",
       "source_location": "L917",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_error_handling_summary",
-      "confidence_score": 1.0
+      "target": "readme_error_handling_summary"
     },
     {
       "relation": "contains",
@@ -1516,9 +4410,9 @@
       "source_file": "README.md",
       "source_location": "L884",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_project_structure_part_3",
-      "confidence_score": 1.0
+      "target": "readme_project_structure_part_3"
     },
     {
       "relation": "contains",
@@ -1526,9 +4420,9 @@
       "source_file": "README.md",
       "source_location": "L954",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_reference",
-      "confidence_score": 1.0
+      "target": "readme_reference"
     },
     {
       "relation": "contains",
@@ -1536,9 +4430,9 @@
       "source_file": "README.md",
       "source_location": "L582",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_1_separate_web_and_api_routes_for_a_single_post",
-      "confidence_score": 1.0
+      "target": "readme_step_1_separate_web_and_api_routes_for_a_single_post"
     },
     {
       "relation": "contains",
@@ -1546,9 +4440,9 @@
       "source_file": "README.md",
       "source_location": "L667",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_2_raise_httpexception_for_missing_resources",
-      "confidence_score": 1.0
+      "target": "readme_step_2_raise_httpexception_for_missing_resources"
     },
     {
       "relation": "contains",
@@ -1556,9 +4450,9 @@
       "source_file": "README.md",
       "source_location": "L693",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_3_understand_automatic_path_parameter_validation",
-      "confidence_score": 1.0
+      "target": "readme_step_3_understand_automatic_path_parameter_validation"
     },
     {
       "relation": "contains",
@@ -1566,9 +4460,9 @@
       "source_file": "README.md",
       "source_location": "L711",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_4_register_a_custom_http_exception_handler",
-      "confidence_score": 1.0
+      "target": "readme_step_4_register_a_custom_http_exception_handler"
     },
     {
       "relation": "contains",
@@ -1576,9 +4470,9 @@
       "source_file": "README.md",
       "source_location": "L767",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_5_handle_validation_errors_the_same_way",
-      "confidence_score": 1.0
+      "target": "readme_step_5_handle_validation_errors_the_same_way"
     },
     {
       "relation": "contains",
@@ -1586,9 +4480,9 @@
       "source_file": "README.md",
       "source_location": "L817",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_6_create_a_styled_error_page_template",
-      "confidence_score": 1.0
+      "target": "readme_step_6_create_a_styled_error_page_template"
     },
     {
       "relation": "contains",
@@ -1596,9 +4490,9 @@
       "source_file": "README.md",
       "source_location": "L863",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_step_7_update_imports",
-      "confidence_score": 1.0
+      "target": "readme_step_7_update_imports"
     },
     {
       "relation": "contains",
@@ -1606,9 +4500,9 @@
       "source_file": "README.md",
       "source_location": "L940",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_what_s_next_later_parts",
-      "confidence_score": 1.0
+      "target": "readme_what_s_next_later_parts"
     },
     {
       "relation": "contains",
@@ -1616,11 +4510,111 @@
       "source_file": "README.md",
       "source_location": "L927",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "readme_part_3_path_parameters_validation_and_custom_error_handling",
-      "target": "readme_what_we_learned_part_3",
-      "confidence_score": 1.0
+      "target": "readme_what_we_learned_part_3"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1138",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_endpoints_summary_after_part_4"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1125",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_project_structure_part_4"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1176",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_reference"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_request_vs_response_contract"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L953",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_step_1_create_schemas_py"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1000",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_step_2_field_validation_with_field"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1014",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_step_3_add_response_model_to_get_endpoints"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1053",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_step_4_create_a_post_endpoint"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_what_s_next_later_parts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1151",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_part_4_pydantic_schemas_for_request_and_response_validation",
+      "target": "readme_what_we_learned_part_4"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "59639e9e20074830532fd62a89c1414d5ff3ef14"
+  "built_at_commit": "645f6ddc25f51d16cb3e0f53cd4c8a964e4917e8"
 }

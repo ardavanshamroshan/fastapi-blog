@@ -7,4 +7,10 @@ requires-python = ">=3.14"
 dependencies = [
     "fastapi[standard]>=0.139.0",
     "jinja2>=3.1.6",
+    "pydantic-settings>=2.0.0",
+    "pydd",
+    "sqlalchemy>=2.0.51",
 ]
+
+[tool.uv.sources]
+pydd = { path = "../pydd" }

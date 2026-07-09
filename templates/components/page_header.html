@@ -1,0 +1,40 @@
+{% macro page_header(breadcrumbs, show_back=false, back_href=none) %}
+{% if show_back or breadcrumbs %}
+<nav aria-label="Breadcrumb" class="mb-6 flex flex-wrap items-center gap-4">
+  {% if show_back %}
+    {% if back_href %}
+    <a href="{{ back_href }}" class="text-muted-foreground">
+      <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </a>
+    {% else %}
+    <button type="button" onclick="window.history.back()" class="text-muted-foreground">
+      <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    {% endif %}
+  {% endif %}
+
+  {% if breadcrumbs %}
+  <ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+    {% for crumb in breadcrumbs %}
+    <li class="flex items-center gap-2">
+      {% if not loop.first %}
+      <span aria-hidden="true">/</span>
+      {% endif %}
+      {% if crumb.url and not loop.last %}
+      <a href="{{ crumb.url }}" class="transition-colors hover:text-foreground">{{ crumb.label }}</a>
+      {% else %}
+      <span class="{% if loop.last %}font-medium text-foreground{% endif %}" {% if loop.last %}aria-current="page"{% endif %}>
+        {{ crumb.label }}
+      </span>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+  {% endif %}
+</nav>
+{% endif %}
+{% endmacro %}
