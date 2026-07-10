@@ -9,6 +9,7 @@ A minimal blog API with styled HTML pages, built while following the [FastAPI Fu
 | 3 | [Part 3](https://youtu.be/WRjXIA5pMtk?si=n6uJOrhtggajfJKz) | Path parameters, API vs web routes, validation errors, custom exception handlers |
 | 4 | [Part 4](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm) | Pydantic schemas, field validation, `response_model`, POST create |
 | 5 | [Part 5](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba) | SQLAlchemy, SQLite, ORM models, repositories, services, dependency injection |
+| 6 | [Part 6](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg) | PUT / PATCH / DELETE, partial updates, cascade delete |
 
 ---
 
@@ -1958,11 +1959,343 @@ blog/
 
 ---
 
+---
+
+# Part 6 — Complete CRUD: PUT, PATCH, and DELETE
+
+**Goals:** finish Create / Read / Update / Delete for posts and users. Add full updates (`PUT`), partial updates (`PATCH`), deletes (`DELETE`), and cascade deletion so removing a user also removes their posts.
+
+Video: [FastAPI Full Course — Part 6](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg)
+
+---
+
+## PUT vs PATCH
+
+| | PUT | PATCH |
+|--|-----|-------|
+| **Intent** | Full replace of updatable fields | Change only fields you send |
+| **Missing fields** | Treated as required / must be provided for a full update | Omitted fields stay unchanged |
+| **Pydantic trick** | Assign every field from the body | `model_dump(exclude_unset=True)` then `setattr` only those keys |
+| **HTTP** | `PUT /resource/{id}` | `PATCH /resource/{id}` (or a dedicated partial path) |
+
+Both return the updated resource as `PostResponse` / `UserResponse`.
+
+---
+
+## Step 1 — Update schemas (`PostUpdate`, `UserUpdate`)
+
+All update fields are **optional** (`None` default) so PATCH can send a subset. Same schema can serve PUT (client sends all fields) and PATCH (client sends some).
+
+### `app/schemas/post.py`
+
+```python
+class PostUpdate(PostBase):
+    title: str | None = Field(default=None, min_length=1, max_length=100)
+    content: str | None = Field(default=None, min_length=1, max_length=1000)
+    user_id: int | None = Field(default=None)
+```
+
+### `app/schemas/user.py`
+
+```python
+class UserUpdate(UserBase):
+    username: str | None = Field(default=None, min_length=1, max_length=50)
+    email: EmailStr | None = Field(default=None, max_length=120)
+    image_file: str | None = Field(default=None)
+```
+
+`Field(min_length=...)` still runs when a value **is** present — empty string rejected even on PATCH.
+
+---
+
+## Step 2 — Cascade delete on User → Posts
+
+When a user is deleted, their posts must go too. Configure the ORM relationship:
+
+```python
+# app/models/user.py
+posts: Mapped[list["Post"]] = relationship(
+    back_populates="author",
+    cascade="all, delete-orphan",
+)
+```
+
+| Option | Meaning |
+|--------|---------|
+| `all` | Persist / merge / delete operations cascade to related posts |
+| `delete-orphan` | Posts removed from `user.posts` (or parent deleted) are deleted from DB |
+
+`Post.author` stays a normal `relationship(back_populates="posts")` — cascade lives on the **parent** (`User`) side.
+
+Flow: `DELETE /api/users/{id}` → `session.delete(user)` → SQLAlchemy deletes related `posts` rows → commit.
+
+---
+
+## Step 3 — Repository update and delete methods
+
+### Posts — `app/repositories/post_repository.py`
+
+**Full update (PUT):**
+
+```python
+def update(self, post: Post, data: PostUpdate) -> Post:
+    post.title = data.title
+    post.content = data.content
+    self._db.commit()
+    self._db.refresh(post)
+    return post
+```
+
+**Partial update (PATCH):**
+
+```python
+def update_partial(self, post: Post, data: PostUpdate) -> Post:
+    data = data.model_dump(exclude_unset=True)
+    for field, value in data.items():
+        setattr(post, field, value)
+    self._db.commit()
+    self._db.refresh(post)
+    return post
+```
+
+`exclude_unset=True` — only keys the client **actually sent** appear in the dict. Fields left out of JSON are not overwritten with `None`.
+
+**Delete:**
+
+```python
+def delete(self, post: Post):
+    self._db.delete(post)
+    self._db.commit()
+    return post
+```
+
+### Users — `app/repositories/user_repository.py`
+
+Same pattern: `update()` assigns all fields, `update_partial()` uses `model_dump(exclude_unset=True)`, `delete()` removes the user (cascade removes posts).
+
+---
+
+## Step 4 — Service layer rules
+
+### Posts — `app/services/post_service.py`
+
+```python
+def update_post(self, post_id: int, data: PostUpdate) -> Post:
+    post = self._repository.get_by_id(post_id)
+    if post is None:
+        raise NotFoundError("Post", post_id)
+    if post.user_id != data.user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You are not allowed to update this post",
+        )
+    return self._repository.update(post, data)
+
+def update_post_partial(self, post_id: int, data: PostUpdate) -> Post:
+    post = self._repository.get_by_id(post_id)
+    if post is None:
+        raise NotFoundError("Post", post_id)
+    return self._repository.update_partial(post, data)
+
+def delete_post(self, post_id: int) -> None:
+    post = self._repository.get_by_id(post_id)
+    if post is None:
+        raise NotFoundError("Post", post_id)
+    return self._repository.delete(post)
+```
+
+PUT checks ownership (`user_id` in body must match post owner) → **403** if mismatch. Missing post → **404**.
+
+### Users — `app/services/user_service.py`
+
+```python
+def update_user(self, user_id: int, data: UserUpdate) -> User: ...
+def update_user_partial(self, user_id: int, data: UserUpdate) -> User: ...
+def delete_user(self, user_id: int) -> None: ...
+```
+
+Helpers: `findOrRaise()` → 404; username/email availability checks before update.
+
+---
+
+## Step 5 — API routes for posts
+
+`routers/api/posts.py`:
+
+```python
+@router.put("/{post_id}", response_model=PostResponse, name="api.posts.update")
+def update(post_id: int, post: PostUpdate, post_service: Annotated[...]):
+    return post_service.update_post(post_id, post)
+
+@router.patch(
+    "/partial/{post_id}",
+    response_model=PostResponse,
+    name="api.posts.update.partial",
+)
+def update_partial(post_id: int, post: PostUpdate, post_service: Annotated[...]):
+    return post_service.update_post_partial(post_id, post)
+
+@router.delete(
+    "/{post_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    name="api.posts.delete",
+)
+def delete(post_id: int, post_service: Annotated[...]):
+    return post_service.delete_post(post_id)
+```
+
+**Note:** post PATCH uses path `/api/posts/partial/{post_id}` so it does not collide with `GET /{post_id}` routing order. User PATCH uses `/{user_id}` with a different HTTP method (safe).
+
+---
+
+## Step 6 — API routes for users
+
+`routers/api/users.py`:
+
+```python
+@router.put("/{user_id}", response_model=UserResponse, name="api.users.update")
+def update(...):
+    return user_service.update_user(user_id, user)
+
+@router.patch("/{user_id}", response_model=UserResponse, name="api.users.update.partial")
+def update_partial(...):
+    return user_service.update_user_partial(user_id, user)
+
+@router.delete(
+    "/{user_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    name="api.users.delete",
+)
+def delete(...):
+    return user_service.delete_user(user_id)
+```
+
+**204 No Content** — delete succeeds with empty body. No `response_model` needed.
+
+---
+
+## Step 7 — Try the endpoints
+
+Assume user `1` owns post `1`.
+
+**PUT post (full update):**
+
+```bash
+curl -X PUT http://127.0.0.1:8000/api/posts/1 \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Updated Title","content":"Full new body","user_id":1}'
+```
+
+Wrong `user_id` → 403.
+
+**PATCH post (partial):**
+
+```bash
+curl -X PATCH http://127.0.0.1:8000/api/posts/partial/1 \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Only title changes"}'
+```
+
+Content / author unchanged.
+
+**DELETE post:**
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/posts/1
+# → 204
+```
+
+**PUT / PATCH user:**
+
+```bash
+curl -X PUT http://127.0.0.1:8000/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"username":"newname","email":"new@example.com","image_file":null}'
+
+curl -X PATCH http://127.0.0.1:8000/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"username":"patched"}'
+```
+
+**DELETE user (cascade):**
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/users/1
+# → 204; all posts for user 1 gone from DB
+```
+
+Verify:
+
+```bash
+curl http://127.0.0.1:8000/api/users/1/posts
+# → 404 User not found
+```
+
+---
+
+## Request / response cheat sheet
+
+```
+PUT    /api/posts/{id}           body: PostUpdate (full)     → 200 PostResponse
+PATCH  /api/posts/partial/{id}   body: PostUpdate (partial)  → 200 PostResponse
+DELETE /api/posts/{id}           —                           → 204
+
+PUT    /api/users/{id}           body: UserUpdate (full)     → 200 UserResponse
+PATCH  /api/users/{id}           body: UserUpdate (partial)  → 200 UserResponse
+DELETE /api/users/{id}           —                           → 204 (+ cascade posts)
+```
+
+---
+
+## Error cases
+
+| Situation | Status |
+|-----------|--------|
+| Post / user id not found | 404 |
+| PUT post with wrong `user_id` | 403 |
+| Invalid field lengths / email | 422 |
+| Duplicate username/email on user update | conflict handling via service checks |
+
+---
+
+## Endpoints summary (after Part 6)
+
+| Method | Path | Body | Response | Status | Route name |
+|--------|------|------|----------|--------|------------|
+| GET | `/api/posts/` | — | `list[PostResponse]` | 200 | `api.posts.index` |
+| GET | `/api/posts/{post_id}` | — | `PostResponse` | 200 | `api.posts.show` |
+| POST | `/api/posts/` | `PostCreate` | `PostResponse` | 201 | `api.posts.store` |
+| PUT | `/api/posts/{post_id}` | `PostUpdate` | `PostResponse` | 200 | `api.posts.update` |
+| PATCH | `/api/posts/partial/{post_id}` | `PostUpdate` | `PostResponse` | 200 | `api.posts.update.partial` |
+| DELETE | `/api/posts/{post_id}` | — | — | **204** | `api.posts.delete` |
+| POST | `/api/users/` | `UserCreate` | `UserResponse` | 201 | `api.users.store` |
+| GET | `/api/users/{user_id}` | — | `UserResponse` | 200 | `api.users.show` |
+| GET | `/api/users/{user_id}/posts` | — | `list[PostResponse]` | 200 | `api.users.posts` |
+| PUT | `/api/users/{user_id}` | `UserUpdate` | `UserResponse` | 200 | `api.users.update` |
+| PATCH | `/api/users/{user_id}` | `UserUpdate` | `UserResponse` | 200 | `api.users.update.partial` |
+| DELETE | `/api/users/{user_id}` | — | — | **204** | `api.users.delete` |
+
+(+ web HTML routes from earlier parts unchanged)
+
+---
+
+## What we learned (Part 6)
+
+- **PUT** = full update; **PATCH** = partial update
+- Optional fields on `PostUpdate` / `UserUpdate` for flexible bodies
+- **`model_dump(exclude_unset=True)`** so unset fields are not wiped
+- **`setattr` loop** for dynamic partial updates in repositories
+- **DELETE** returns **204 No Content**
+- **`cascade="all, delete-orphan"`** on `User.posts` removes posts when user deleted
+- Ownership check on post PUT → **403 Forbidden**
+- Full CRUD for posts and users with validation + error handling
+
+---
+
 ## What's next (later parts)
 
 The full course continues with:
 
-- Full CRUD (update, delete posts)
 - User registration and login (password hashing, JWT)
 - File uploads (profile pictures → `storage/`)
 - Background tasks (email)
@@ -1977,10 +2310,12 @@ The full course continues with:
 - [FastAPI Full Course — Part 3 (YouTube)](https://youtu.be/WRjXIA5pMtk?si=n6uJOrhtggajfJKz)
 - [FastAPI Full Course — Part 4 (YouTube)](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm)
 - [FastAPI Full Course — Part 5 (YouTube)](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba)
+- [FastAPI Full Course — Part 6 (YouTube)](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg)
 - [FastAPI documentation](https://fastapi.tiangolo.com/)
 - [FastAPI — SQL Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
 - [FastAPI — Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/)
-- [SQLAlchemy 2.0 documentation](https://docs.sqlalchemy.org/en/20/)
+- [FastAPI — Body Updates](https://fastapi.tiangolo.com/tutorial/body-updates/)
+- [SQLAlchemy 2.0 — Cascades](https://docs.sqlalchemy.org/en/20/orm/cascades.html)
 - [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 - [Jinja2 documentation](https://jinja.palletsprojects.com/)
 - [Tailwind CSS documentation](https://tailwindcss.com/docs)
