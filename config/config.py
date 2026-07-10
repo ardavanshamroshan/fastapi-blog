@@ -11,7 +11,7 @@ class NotFoundError(Exception):
     def __init__(self, resource: str, identifier: int | str) -> None:
         self.resource = resource
         self.identifier = identifier
-        super().__init__(f"{resource} {identifier} not found")
+        super().__init__(f'{resource} {identifier} not found')
 
 
 class ConflictError(Exception):
@@ -22,18 +22,18 @@ class ConflictError(Exception):
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
+        env_file='.env',
+        env_file_encoding='utf-8',
+        extra='ignore',
     )
 
-    app_name: str = Field(validation_alias="APP_NAME")
-    database_url: str = Field(validation_alias="DATABASE_URL")
-    static_url_prefix: str = Field(validation_alias="STATIC_URL_PREFIX")
-    storage_url_prefix: str = Field(validation_alias="STORAGE_URL_PREFIX")
-    templates_dir: Path = Field(validation_alias="TEMPLATES_DIR")
-    static_dir: Path = Field(validation_alias="STATIC_DIR")
-    storage_dir: Path = Field(validation_alias="STORAGE_DIR")
+    app_name: str = Field(validation_alias='APP_NAME')
+    database_url: str = Field(validation_alias='DATABASE_URL')
+    static_url_prefix: str = Field(validation_alias='STATIC_URL_PREFIX')
+    storage_url_prefix: str = Field(validation_alias='STORAGE_URL_PREFIX')
+    templates_dir: Path = Field(validation_alias='TEMPLATES_DIR')
+    static_dir: Path = Field(validation_alias='STATIC_DIR')
+    storage_dir: Path = Field(validation_alias='STORAGE_DIR')
 
 
 settings = Settings()

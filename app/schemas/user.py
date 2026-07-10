@@ -11,6 +11,11 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     pass
 
+class UserUpdate(UserBase):
+    username: str | None = Field(default=None, min_length=1, max_length=50)
+    email: EmailStr | None = Field(default=None, max_length=120)
+    image_file: str | None = Field(default=None)
+
 
 class UserResponse(UserBase):
     model_config = ConfigDict(from_attributes=True)

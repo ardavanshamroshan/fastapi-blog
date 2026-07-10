@@ -11,17 +11,17 @@ from routers import web
 
 
 def _is_api_request(request: Request) -> bool:
-    return request.url.path.startswith("/api/")
+    return request.url.path.startswith('/api/')
 
 
 def _error_page(request: Request, status_code: int, message: str) -> JSONResponse:
     return templates.TemplateResponse(
         request=request,
-        name="errors/error.html",
+        name='errors/error.html',
         context={
-            "status_code": status_code,
-            "title": status_code,
-            "message": message,
+            'status_code': status_code,
+            'title': status_code,
+            'message': message,
         },
         status_code=status_code,
     )
@@ -33,12 +33,12 @@ def create_app() -> FastAPI:
     app.mount(
         settings.static_url_prefix,
         StaticFiles(directory=str(settings.static_dir)),
-        name="static",
+        name='static',
     )
     app.mount(
         settings.storage_url_prefix,
         StaticFiles(directory=str(settings.storage_dir)),
-        name="media",
+        name='media',
     )
 
     app.include_router(web.router)
@@ -47,11 +47,11 @@ def create_app() -> FastAPI:
 
     @app.exception_handler(NotFoundError)
     def not_found_handler(request: Request, exception: NotFoundError) -> JSONResponse:
-        detail = f"{exception.resource} not found"
+        detail = f'{exception.resource} not found'
         if _is_api_request(request):
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
-                content={"detail": detail},
+                content={'detail': detail},
             )
         return _error_page(request, status.HTTP_404_NOT_FOUND, detail)
 
@@ -60,7 +60,7 @@ def create_app() -> FastAPI:
         if _is_api_request(request):
             return JSONResponse(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                content={"detail": exception.detail},
+                content={'detail': exception.detail},
             )
         return _error_page(
             request, status.HTTP_422_UNPROCESSABLE_ENTITY, exception.detail
@@ -71,12 +71,12 @@ def create_app() -> FastAPI:
         request: Request, exception: StarletteHTTPException
     ) -> JSONResponse:
         message = exception.detail or (
-            "An unexpected error occurred. Please check the request and try again."
+            'An unexpected error occurred. Please check the request and try again.'
         )
         if _is_api_request(request):
             return JSONResponse(
                 status_code=exception.status_code,
-                content={"detail": message},
+                content={'detail': message},
             )
         return _error_page(request, exception.status_code, message)
 
@@ -87,9 +87,9 @@ def create_app() -> FastAPI:
         if _is_api_request(request):
             return JSONResponse(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                content={"detail": exception.errors()},
+                content={'detail': exception.errors()},
             )
-        message = ", ".join(error["msg"] for error in exception.errors())
+        message = ', '.join(error['msg'] for error in exception.errors())
         return _error_page(request, status.HTTP_422_UNPROCESSABLE_ENTITY, message)
 
     return app

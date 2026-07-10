@@ -1,16 +1,16 @@
-# Graph Report - blog  (2026-07-09)
+# Graph Report - blog  (2026-07-10)
 
 ## Corpus Check
-- 26 files · ~11,586 words
+- 26 files · ~14,804 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 156 nodes · 290 edges · 12 communities (11 shown, 1 thin omitted)
+- 200 nodes · 368 edges · 14 communities (13 shown, 1 thin omitted)
 - Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 13 edges (avg confidence: 0.5)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `645f6ddc`
+- Built from commit: `d54dcc92`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -23,37 +23,39 @@
 - [[_COMMUNITY_Community 5|Community 5]]
 - [[_COMMUNITY_Community 7|Community 7]]
 - [[_COMMUNITY_Community 8|Community 8]]
+- [[_COMMUNITY_Community 9|Community 9]]
+- [[_COMMUNITY_Community 10|Community 10]]
 - [[_COMMUNITY_Community 11|Community 11]]
 - [[_COMMUNITY_Community 13|Community 13]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `PostService` - 22 edges
-2. `Post` - 17 edges
-3. `UserRepository` - 17 edges
-4. `User` - 16 edges
-5. `PostRepository` - 14 edges
-6. `Part 2 — Templates, Static Files, and Single Post View` - 14 edges
-7. `Part 3 — Path Parameters, Validation, and Custom Error Handling` - 14 edges
-8. `UserService` - 13 edges
-9. `Part 1 — Getting Started` - 13 edges
-10. `NotFoundError` - 12 edges
+1. `PostService` - 27 edges
+2. `Part 5 — SQLAlchemy Database, ORM Models, and Dependency Injection` - 23 edges
+3. `Post` - 21 edges
+4. `UserRepository` - 17 edges
+5. `User` - 16 edges
+6. `PostRepository` - 16 edges
+7. `UserService` - 15 edges
+8. `NotFoundError` - 14 edges
+9. `Part 2 — Templates, Static Files, and Single Post View` - 14 edges
+10. `Part 3 — Path Parameters, Validation, and Custom Error Handling` - 14 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Post` --uses--> `Base`  [INFERRED]
   app/models/post.py → config/database.py
-- `User` --uses--> `Base`  [INFERRED]
-  app/models/user.py → config/database.py
 - `PostService` --uses--> `NotFoundError`  [INFERRED]
   app/services/post_service.py → config/config.py
-- `UserService` --uses--> `NotFoundError`  [INFERRED]
-  app/services/user_service.py → config/config.py
+- `User` --uses--> `Base`  [INFERRED]
+  app/models/user.py → config/database.py
 - `store()` --references--> `PostCreate`  [EXTRACTED]
-  routers/posts.py → app/schemas/post.py
+  routers/api/posts.py → app/schemas/post.py
+- `update()` --references--> `PostUpdate`  [EXTRACTED]
+  routers/api/posts.py → app/schemas/post.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (12 total, 1 thin omitted)
+## Communities (14 total, 1 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.15
@@ -68,43 +70,51 @@ Cohesion: 0.09
 Nodes (24): Blog — FastAPI Tutorial, Endpoints summary (after Part 3), Endpoints summary (after Part 4), Error handling summary, Part 3 — Path Parameters, Validation, and Custom Error Handling, Part 4 — Pydantic Schemas for Request and Response Validation, Project structure (Part 3), Project structure (Part 4) (+16 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.23
-Nodes (16): create_app(), _error_page(), _is_api_request(), Depends, FastAPI, get_post_service, JSONResponse, Request (+8 more)
+Cohesion: 0.38
+Nodes (14): index(), show(), store(), update(), update_partial(), posts(), Depends, get_post_service (+6 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.18
-Nodes (3): NotFoundError, Post, PostRepository
+Cohesion: 0.24
+Nodes (4): Post, PostRepository, Update a post partially. for fields that were not provided in the request, the f, PostUpdate
 
 ### Community 5 - "Community 5"
 Cohesion: 0.22
 Nodes (8): devDependencies, tailwindcss, @tailwindcss/cli, name, private, scripts, build, dev
 
 ### Community 8 - "Community 8"
-Cohesion: 0.19
-Nodes (10): ConflictError, DbSession, Exception, User, get_post_repository(), get_post_service(), get_user_repository(), get_user_service() (+2 more)
+Cohesion: 0.62
+Nodes (5): DbSession, get_post_repository(), get_post_service(), get_user_repository(), get_user_service()
+
+### Community 9 - "Community 9"
+Cohesion: 0.06
+Nodes (35): API — `routers/api/posts.py`, API — `routers/api/users.py` (new), `app/models/post.py`, `app/models/user.py`, `app/providers/database.py`, `app/providers/services.py`, `app/repositories/post_repository.py`, `app/repositories/user_repository.py` (+27 more)
+
+### Community 10 - "Community 10"
+Cohesion: 0.16
+Nodes (11): create_app(), _error_page(), _is_api_request(), BaseSettings, ConflictError, NotFoundError, Settings, Exception (+3 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.30
-Nodes (10): BaseModel, get_user_service, show(), store(), PostBase, PostCreate, PostResponse, UserBase (+2 more)
+Cohesion: 0.27
+Nodes (10): show(), store(), BaseModel, get_user_service, PostBase, PostCreate, PostResponse, UserBase (+2 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.19
-Nodes (6): BaseSettings, Settings, Base, get_db(), DeclarativeBase, Session
+Cohesion: 0.14
+Nodes (6): Base, get_db(), DeclarativeBase, User, UserRepository, Session
 
 ## Knowledge Gaps
-- **52 isolated node(s):** `name`, `private`, `dev`, `build`, `@tailwindcss/cli` (+47 more)
+- **80 isolated node(s):** `name`, `private`, `dev`, `build`, `@tailwindcss/cli` (+75 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **1 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `PostService` connect `Community 3` to `Community 8`, `Community 11`, `Community 4`?**
-  _High betweenness centrality (0.070) - this node is a cross-community bridge._
-- **Why does `UserRepository` connect `Community 8` to `Community 3`, `Community 4`, `Community 13`?**
-  _High betweenness centrality (0.049) - this node is a cross-community bridge._
+- **Why does `Part 5 — SQLAlchemy Database, ORM Models, and Dependency Injection` connect `Community 9` to `Community 2`?**
+  _High betweenness centrality (0.118) - this node is a cross-community bridge._
+- **Why does `PostService` connect `Community 3` to `Community 4`, `Community 8`, `Community 10`, `Community 11`, `Community 13`?**
+  _High betweenness centrality (0.054) - this node is a cross-community bridge._
 - **Why does `Part 2 — Templates, Static Files, and Single Post View` connect `Community 1` to `Community 2`?**
-  _High betweenness centrality (0.048) - this node is a cross-community bridge._
+  _High betweenness centrality (0.052) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `PostService` (e.g. with `NotFoundError` and `Post`) actually correct?**
   _`PostService` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `Post` (e.g. with `Base` and `User`) actually correct?**

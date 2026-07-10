@@ -10,31 +10,31 @@ from config.config import templates
 router = APIRouter(include_in_schema=False)
 
 
-@router.get("/", name="home.index")
+@router.get('/', name='home.index')
 def home(
     request: Request,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
     return templates.TemplateResponse(
         request=request,
-        name="home.html",
-        context={"posts": post_service.list_posts()},
+        name='home.html',
+        context={'posts': post_service.list_posts()},
     )
 
 
-@router.get("/posts", name="posts.index")
+@router.get('/posts', name='posts.index')
 def index(
     request: Request,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
     return templates.TemplateResponse(
         request=request,
-        name="posts/index.html",
-        context={"posts": post_service.list_posts()},
+        name='posts/index.html',
+        context={'posts': post_service.list_posts()},
     )
 
 
-@router.get("/posts/{post_id}", name="posts.show")
+@router.get('/posts/{post_id}', name='posts.show')
 def show(
     request: Request,
     post_id: int,
@@ -43,8 +43,8 @@ def show(
     post = post_service.get_post(post_id)
     return templates.TemplateResponse(
         request=request,
-        name="posts/show.html",
-        context={"post": post, "title": post.title},
+        name='posts/show.html',
+        context={'post': post, 'title': post.title},
     )
 
 
@@ -60,9 +60,9 @@ def user_posts(
 
     return templates.TemplateResponse(
         request=request,
-        name="posts/index.html",
+        name='posts/index.html',
         context={
-            "posts": posts,
-            "author": author,
+            'posts': posts,
+            'author': author,
         },
     )

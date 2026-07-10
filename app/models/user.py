@@ -9,7 +9,7 @@ from config.database import Base
 
 
 class User(Base):
-    __tablename__ = "users"
+    __tablename__ = 'users'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     username: Mapped[str] = mapped_column(
@@ -28,7 +28,10 @@ class User(Base):
         onupdate=lambda: datetime.now(UTC),
     )
 
-    posts: Mapped[list[Post]] = relationship(back_populates="author")
+    posts: Mapped[list["Post"]] = relationship(
+        back_populates='author',
+        cascade='all, delete-orphan'
+    )
 
     def __str__(self) -> str:
         return self.username
@@ -36,5 +39,5 @@ class User(Base):
     @property
     def image_path(self) -> str:
         if self.image_file:
-            return f"/media/profile_pics/{self.image_file}"
-        return "/static/profile_pics/default.jpg"
+            return f'/media/profile_pics/{self.image_file}'
+        return '/static/profile_pics/default.jpg'

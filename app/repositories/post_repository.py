@@ -2,6 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, joinedload
 
 from app.models.post import Post
+from app.schemas.post import PostUpdate
 
 
 class PostRepository:
@@ -37,5 +38,36 @@ class PostRepository:
         self._db.refresh(post)
         loaded = self._db.scalar(self._base_query().where(Post.id == post.id))
         if loaded is None:
-            raise RuntimeError(f"Failed to load post {post.id} after create")
+            raise RuntimeError(f'Failed to load post {post.id} after create')
         return loaded
+
+    def update(self, post: Post, data: PostUpdate) -> Post:
+        post.title = data.title
+        post.content = data.content
+
+        self._db.commit()
+        self._db.refresh(post)
+
+        return post
+
+    def update_partial(self, post: Post, data: PostUpdate) -> Post:
+        """Update a post partially. for fields that were not provided in the request, the field will not be updated."""
+
+        # Convert the Pydantic model to a dict, excluding fields that were not provided in the request
+        data = data.model_dump(exclude_unset=True)
+
+        # Iterates over each field and its corresponding value from the provided data,
+        # and updates the respective attributes of the post object dynamically.
+        for field, value in data.items():
+            setattr(post, field, value)
+
+        self._db.commit()
+        self._db.refresh(post)
+
+        return post
+
+    def delete(self, post: Post):
+        self._db.delete(post)
+        self._db.commit()
+        
+        return post

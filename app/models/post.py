@@ -9,13 +9,13 @@ from config.database import Base
 
 
 class Post(Base):
-    __tablename__ = "posts"
+    __tablename__ = 'posts'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     title: Mapped[str] = mapped_column(String(100), nullable=False)
     content: Mapped[str] = mapped_column(Text, nullable=False)
     user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"),
+        ForeignKey('users.id'),
         nullable=False,
         index=True,
     )
@@ -29,7 +29,7 @@ class Post(Base):
         onupdate=lambda: datetime.now(UTC),
     )
 
-    author: Mapped[User] = relationship(back_populates="posts")
+    author: Mapped["User"] = relationship(back_populates='posts')
 
     @property
     def tags(self) -> list[str]:
