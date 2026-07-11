@@ -11,6 +11,7 @@ A minimal blog API with styled HTML pages, built while following the [FastAPI Fu
 | 5 | [Part 5](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba) | SQLAlchemy, SQLite, ORM models, repositories, services, dependency injection |
 | 6 | [Part 6](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg) | PUT / PATCH / DELETE, partial updates, cascade delete |
 | 7 | [Part 7](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY) | Sync vs async, async SQLAlchemy, aiosqlite, await everywhere |
+| 8 | [Part 8](https://youtu.be/NkgIHa6KtHg?si=PiDtpeWly1twPCP7) | `APIRouter`, split routes into modules, `include_router` |
 
 ---
 
@@ -2808,6 +2809,278 @@ Are you inside async def?
 
 ---
 
+---
+
+# Part 8 — Organize Routes with APIRouter
+
+**Goals:** stop putting every endpoint on the FastAPI app object in one giant file. Split routes into modules with `APIRouter`, then mount them with `include_router`.
+
+Video: [FastAPI Full Course — Part 8](https://youtu.be/NkgIHa6KtHg?si=PiDtpeWly1twPCP7)
+
+> **Already done in this project.** Starting in Part 5 you moved routes into `routers/`. Part 8 of the video series covers the same idea formally. This section documents *why* and *how* — matching your current layout.
+
+---
+
+## The problem
+
+Early parts used a single `main.py`:
+
+```python
+app = FastAPI()
+
+@app.get("/api/posts")
+def get_posts(): ...
+
+@app.post("/api/posts")
+def create_post(): ...
+
+@app.get("/api/users/{user_id}")
+def get_user(): ...
+# ... grows forever
+```
+
+As CRUD, users, HTML pages, and exception handlers pile up, `main.py` becomes hard to navigate, review, and test.
+
+---
+
+## The fix: `APIRouter`
+
+`APIRouter` = mini FastAPI app for a group of related routes. Same decorators (`@router.get`, `@router.post`, …). You attach the router to the real app later.
+
+```python
+from fastapi import APIRouter
+
+router = APIRouter(prefix="/api/posts", tags=["posts"])
+
+@router.get("/")
+async def index(): ...
+```
+
+Then in `create_app()`:
+
+```python
+from routers.api import posts
+
+app.include_router(posts.router)
+```
+
+Paths combine: `prefix="/api/posts"` + `@router.get("/")` → `/api/posts/`.
+
+---
+
+## Why routers help
+
+| Benefit | Detail |
+|---------|--------|
+| **Separation** | Posts, users, web pages live in separate files |
+| **Prefixes** | Set `/api/posts` once — no copy-paste on every path |
+| **OpenAPI tags** | `tags=["posts"]` groups endpoints in `/docs` |
+| **Schema control** | Web router can use `include_in_schema=False` |
+| **Thin app factory** | `app/main.py` only mounts routers + handlers |
+| **Team scale** | Different people edit different modules |
+
+---
+
+## Your project layout (already in place)
+
+```
+routers/
+├── web.py              # HTML pages (not in OpenAPI)
+└── api/
+    ├── posts.py        # /api/posts  CRUD
+    └── users.py        # /api/users  CRUD
+```
+
+```
+app/main.py             # create_app() → include_router(...)
+main.py                 # app = create_app()
+```
+
+---
+
+## Step 1 — Create a posts router
+
+`routers/api/posts.py`:
+
+```python
+from fastapi import APIRouter, Depends, status
+
+router = APIRouter(prefix="/api/posts", tags=["posts"])
+
+
+@router.get("/", response_model=list[PostResponse], name="api.posts.index")
+async def index(post_service: Annotated[PostService, Depends(get_post_service)]):
+    return await post_service.list_posts()
+
+
+@router.get("/{post_id}", response_model=PostResponse, name="api.posts.show")
+async def show(...): ...
+
+@router.post("/", ..., name="api.posts.store")
+async def store(...): ...
+
+# put / patch / delete likewise — all on `router`, not `app`
+```
+
+**Key options on `APIRouter(...)`:**
+
+| Option | Your value | Effect |
+|--------|------------|--------|
+| `prefix` | `/api/posts` | Prepended to every path |
+| `tags` | `["posts"]` | Swagger UI section label |
+
+Use `@router.get` / `@router.post` / … instead of `@app.get`.
+
+---
+
+## Step 2 — Create a users router
+
+`routers/api/users.py`:
+
+```python
+router = APIRouter(prefix="/api/users", tags=["users"])
+
+@router.post("/", ..., name="api.users.store")
+async def store(...): ...
+
+@router.get("/{user_id}", ..., name="api.users.show")
+async def show(...): ...
+
+@router.get("/{user_id}/posts", ..., name="api.users.posts")
+async def posts(...): ...
+# put / patch / delete ...
+```
+
+Same pattern — different prefix and tags.
+
+---
+
+## Step 3 — Create a web router (HTML)
+
+`routers/web.py`:
+
+```python
+router = APIRouter(include_in_schema=False)
+
+@router.get("/", name="home.index")
+async def home(...): ...
+
+@router.get("/posts", name="posts.index")
+async def index(...): ...
+```
+
+`include_in_schema=False` — HTML pages stay out of `/docs` / OpenAPI. API routers stay documented.
+
+---
+
+## Step 4 — Mount routers in the app factory
+
+`app/main.py` stays focused on wiring:
+
+```python
+from routers.api import posts, users
+from routers import web
+
+def create_app() -> FastAPI:
+    app = FastAPI(title=settings.app_name, lifespan=lifespan)
+
+    app.mount(...)  # static / media
+
+    app.include_router(web.router)
+    app.include_router(users.router)
+    app.include_router(posts.router)
+
+    # exception handlers stay on `app`
+    ...
+    return app
+```
+
+Order of `include_router` rarely matters for distinct prefixes. Keep static mounts before or beside routers as you already do.
+
+Root `main.py`:
+
+```python
+from app.main import create_app
+
+app = create_app()
+```
+
+---
+
+## Step 5 — Optional: router-level dependencies / config
+
+Useful later (auth, rate limits):
+
+```python
+router = APIRouter(
+    prefix="/api/posts",
+    tags=["posts"],
+    # dependencies=[Depends(require_auth)],  # applies to all routes on this router
+)
+```
+
+You can also nest routers:
+
+```python
+api = APIRouter(prefix="/api")
+api.include_router(posts.router)   # if posts had prefix="/posts"
+api.include_router(users.router)
+app.include_router(api)
+```
+
+Your project puts the full prefix on each child router (`/api/posts`, `/api/users`) — also valid and clear.
+
+---
+
+## Before vs after
+
+| Before (monolith) | After (routers) |
+|-------------------|-----------------|
+| `@app.get("/api/posts")` in `main.py` | `@router.get("/")` in `routers/api/posts.py` |
+| All paths written in full | Shared `prefix` |
+| One huge file | One module per resource |
+| Hard to find endpoints | Open `posts.py` / `users.py` / `web.py` |
+| App owns every route | App only `include_router` |
+
+---
+
+## How this maps to earlier parts
+
+| Series video timing | Your repo |
+|---------------------|-----------|
+| Part 8 teaches routers | You introduced `routers/` in **Part 5** while adding SQLAlchemy + services |
+| Video may still show sync + simple structure | Your routers are already **async** + DI (`Depends(get_post_service)`) |
+
+No code move required if structure already matches. Part 8 = conceptual checkpoint + docs alignment.
+
+---
+
+## Quick mental model
+
+```
+create_app()
+   ├── include_router(web.router)      → /, /posts, /posts/{id}, ...
+   ├── include_router(users.router)    → /api/users/...
+   └── include_router(posts.router)    → /api/posts/...
+
+Each router file:
+   router = APIRouter(prefix=..., tags=...)
+   @router.get / post / put / patch / delete
+```
+
+---
+
+## What we learned (Part 8)
+
+- Fat `main.py` does not scale — split by resource
+- **`APIRouter`** groups related endpoints like a sub-app
+- **`prefix`** and **`tags`** cut duplication and clarify OpenAPI
+- **`include_router`** mounts modules onto the FastAPI app
+- Web routes can hide from docs with **`include_in_schema=False`**
+- App factory keeps lifespan, mounts, and exception handlers; routers own HTTP endpoints
+
+---
+
 ## What's next (later parts)
 
 The full course continues with:
@@ -2828,6 +3101,8 @@ The full course continues with:
 - [FastAPI Full Course — Part 5 (YouTube)](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba)
 - [FastAPI Full Course — Part 6 (YouTube)](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg)
 - [FastAPI Full Course — Part 7 (YouTube)](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY)
+- [FastAPI Full Course — Part 8 (YouTube)](https://youtu.be/NkgIHa6KtHg?si=PiDtpeWly1twPCP7)
+- [FastAPI — Bigger Applications / Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/)
 - [FastAPI — Concurrency and async / await](https://fastapi.tiangolo.com/async/)
 - [FastAPI — SQL Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
 - [FastAPI — Lifespan Events](https://fastapi.tiangolo.com/advanced/events/)
