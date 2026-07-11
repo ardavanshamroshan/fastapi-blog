@@ -10,6 +10,7 @@ A minimal blog API with styled HTML pages, built while following the [FastAPI Fu
 | 4 | [Part 4](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm) | Pydantic schemas, field validation, `response_model`, POST create |
 | 5 | [Part 5](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba) | SQLAlchemy, SQLite, ORM models, repositories, services, dependency injection |
 | 6 | [Part 6](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg) | PUT / PATCH / DELETE, partial updates, cascade delete |
+| 7 | [Part 7](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY) | Sync vs async, async SQLAlchemy, aiosqlite, await everywhere |
 
 ---
 
@@ -2292,6 +2293,521 @@ DELETE /api/users/{id}           —                           → 204 (+ cascad
 
 ---
 
+---
+
+# Part 7 — Sync vs Async, and Converting the App to Async SQLAlchemy
+
+**Goals:** understand synchronous vs asynchronous code in FastAPI, know when async helps (and when it does not), then convert the whole stack — database config, repositories, services, routes, eager loading, lifespan, and exception handlers — to async with SQLAlchemy + aiosqlite.
+
+Video: [FastAPI Full Course — Part 7](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY)
+
+---
+
+## Concepts: Sync vs Async
+
+### What "synchronous" means
+
+**Sync** = one thing at a time on that worker. Call blocks until it finishes.
+
+```python
+def get_posts():
+    posts = db.query(Post).all()   # thread waits here for DB
+    return posts                   # then continues
+```
+
+While the database replies, that thread sits idle. Under load, FastAPI (via Starlette) can run sync routes in a **threadpool**, but each blocked thread is still occupied until I/O completes.
+
+### What "asynchronous" means
+
+**Async** = cooperative multitasking on one event loop. When code `await`s I/O, the loop can run other tasks.
+
+```python
+async def get_posts():
+    posts = await db.scalars(select(Post))  # yield control while waiting
+    return list(posts.all())
+```
+
+`async def` marks a **coroutine**. `await` pauses it until the awaited I/O finishes — without blocking the whole process. Other requests can progress on the same worker.
+
+```
+Sync (one worker, blocking I/O):
+
+  Request A ████████████████  (waiting on DB)  ████ reply
+  Request B                   (queued / other thread)
+
+Async (event loop):
+
+  Request A ██ await DB ┄┄┄┄┄ ┄┄ ██ reply
+  Request B    ██ await DB ┄┄ ██ reply
+               ↑ loop switches while A waits
+```
+
+### Sync vs async at a glance
+
+| | Synchronous | Asynchronous |
+|--|-------------|--------------|
+| Function | `def` | `async def` |
+| Call I/O | Blocking call | `await` non-blocking I/O |
+| While waiting | Thread stuck | Event loop runs other work |
+| DB driver | `sqlite3`, `psycopg2`, sync SQLAlchemy | `aiosqlite`, `asyncpg`, async SQLAlchemy |
+| Mental model | Simple, linear | Coroutines + `await` discipline |
+| FastAPI default | Fully supported | Preferred when I/O-bound |
+
+### When async **helps**
+
+Use async when the route spends most time **waiting** on I/O:
+
+- Database queries (network or disk wait)
+- HTTP calls to other APIs
+- Redis / message queues
+- File uploads over the network
+- Many concurrent connections, mostly idle waiting
+
+Benefit: one process handles many concurrent waiters without one thread per request.
+
+### When async **does not help** (or hurts)
+
+Stay sync (or offload) when work is **CPU-bound** or libraries are sync-only:
+
+| Situation | Prefer |
+|-----------|--------|
+| Heavy CPU (image resize, PDF, crypto, ML inference) | Sync route, or `run_in_executor` / background worker |
+| Sync-only library with no async port | Sync `def` route (FastAPI runs it in threadpool) |
+| Tiny app, low traffic, simple code | Sync is fine — less complexity |
+| Accidental sync call inside `async def` | **Bad** — blocks the event loop for everyone |
+
+**Critical rule:** never call blocking sync I/O directly inside `async def` without wrapping it. That freezes the loop.
+
+```python
+# BAD — blocks event loop
+async def bad():
+    time.sleep(5)           # sync sleep
+    open("big.bin").read()  # sync disk
+
+# GOOD — async I/O or thread offload
+async def good():
+    await asyncio.sleep(5)
+    await async_db.execute(...)
+```
+
+### FastAPI + sync/async mixing
+
+FastAPI supports both:
+
+| Route style | How FastAPI runs it |
+|-------------|---------------------|
+| `async def` | On the event loop — must not block |
+| `def` | In a threadpool — OK to block on sync DB/libs |
+
+You can mix routes. For this blog we go **fully async** end-to-end so DB I/O never blocks the loop.
+
+### Async SQLAlchemy mental model
+
+| Sync (Part 5–6) | Async (Part 7) |
+|-----------------|----------------|
+| `create_engine` | `create_async_engine` |
+| `sessionmaker` + `Session` | `async_sessionmaker` + `AsyncSession` |
+| `sqlite:///...` | `sqlite+aiosqlite:///...` |
+| `db.commit()` | `await db.commit()` |
+| `db.scalars(...)` | `await db.scalars(...)` |
+| `joinedload(...)` | Prefer `selectinload(...)` for async |
+| Sync `get_db` generator | `async def get_db` + `AsyncGenerator` |
+
+---
+
+## Step 1 — Install async dependencies
+
+```bash
+uv add aiosqlite greenlet
+```
+
+| Package | Why |
+|---------|-----|
+| `aiosqlite` | Async SQLite driver (replaces sync `sqlite3` path) |
+| `greenlet` | Required by SQLAlchemy async ORM internals |
+
+`pyproject.toml`:
+
+```toml
+dependencies = [
+    "aiosqlite>=0.22.1",
+    "fastapi[standard]>=0.139.0",
+    "greenlet>=3.5.3",
+    "jinja2>=3.1.6",
+    "pydantic-settings>=2.0.0",
+    "sqlalchemy>=2.0.51",
+    ...
+]
+```
+
+---
+
+## Step 2 — Switch the database URL
+
+`.env`:
+
+```env
+# Before (sync)
+# DATABASE_URL=sqlite:///./database/blog.db
+
+# After (async)
+DATABASE_URL=sqlite+aiosqlite:///./database/blog.db
+```
+
+Dialect `sqlite+aiosqlite` tells SQLAlchemy to use the async aiosqlite driver.
+
+For Postgres later: `postgresql+asyncpg://user:pass@host/db`.
+
+---
+
+## Step 3 — Async engine and session (`config/database.py`)
+
+Replace sync engine/session with async versions:
+
+```python
+from typing import AsyncGenerator
+
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.orm import DeclarativeBase
+
+from config.config import settings
+
+connect_args = (
+    {"check_same_thread": False}
+    if settings.database_url.startswith("sqlite")
+    else {}
+)
+
+engine = create_async_engine(
+    url=settings.database_url,
+    connect_args=connect_args,
+)
+
+AsyncSessionLocal = async_sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+)
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
+    async with AsyncSessionLocal() as session:
+        yield session
+```
+
+**What changed:**
+
+| Piece | Role |
+|-------|------|
+| `create_async_engine` | Async connection pool |
+| `async_sessionmaker` | Factory for `AsyncSession` |
+| `expire_on_commit=False` | Objects stay usable after commit (avoids lazy-load surprises in async) |
+| `async def get_db` | Yields session; `async with` closes it after the request |
+
+Update `app/providers/services.py`:
+
+```python
+from sqlalchemy.ext.asyncio import AsyncSession
+
+DbSession = Annotated[AsyncSession, Depends(get_db)]
+```
+
+---
+
+## Step 4 — Eager loading: `joinedload` → `selectinload`
+
+In async SQLAlchemy, **lazy loading is dangerous** — accessing `post.author` after the query can trigger implicit I/O that is not awaited → errors or blocked behavior.
+
+Part 5–6 used `joinedload(Post.author)` (one SQL JOIN). For async, prefer **`selectinload`**:
+
+```python
+from sqlalchemy.orm import selectinload
+
+def _base_query(self):
+    return select(Post).options(selectinload(Post.author))
+```
+
+| Strategy | How it loads | Async fit |
+|----------|--------------|-----------|
+| `joinedload` | JOIN in same statement | Works, but can duplicate rows |
+| `selectinload` | Second `WHERE id IN (...)` query | Clear, async-friendly |
+| Lazy (`post.author` later) | Extra query on attribute access | **Avoid in async** |
+
+After create, refresh related data explicitly if needed:
+
+```python
+await self._db.refresh(post, attribute_names=["author"])
+```
+
+---
+
+## Step 5 — Convert repositories to `async` / `await`
+
+Every DB call becomes async.
+
+### Pattern
+
+```python
+# Before
+def list_all(self) -> list[Post]:
+    return list(self._db.scalars(...).all())
+
+# After
+async def list_all(self) -> list[Post]:
+    result = await self._db.scalars(...)
+    return list(result.all())
+```
+
+### Commits, deletes, refresh
+
+```python
+await self._db.commit()
+await self._db.refresh(post)
+await self._db.delete(post)   # AsyncSession.delete is awaitable
+```
+
+### `PostRepository` (sketch)
+
+```python
+class PostRepository:
+    def __init__(self, db: AsyncSession) -> None:
+        self._db = db
+
+    async def list_all(self) -> list[Post]:
+        result = await self._db.scalars(
+            self._base_query().order_by(Post.date_created.desc())
+        )
+        return list(result.all())
+
+    async def get_by_id(self, post_id: int) -> Post | None:
+        return await self._db.scalar(self._base_query().where(Post.id == post_id))
+
+    async def create(self, *, title: str, content: str, user_id: int) -> Post:
+        post = Post(title=title, content=content, user_id=user_id)
+        self._db.add(post)
+        await self._db.commit()
+        await self._db.refresh(post, attribute_names=["author"])
+        loaded = await self._db.scalar(self._base_query().where(Post.id == post.id))
+        ...
+        return loaded
+
+    async def update(...): ...
+    async def update_partial(...): ...
+    async def delete(self, post: Post) -> Post:
+        await self._db.delete(post)
+        await self._db.commit()
+        return post
+```
+
+Same conversion for `UserRepository` — all methods `async`, all I/O `await`ed.
+
+---
+
+## Step 6 — Convert services
+
+Services await repositories:
+
+```python
+async def get_post(self, post_id: int) -> Post:
+    post = await self._repository.get_by_id(post_id)
+    if post is None:
+        raise NotFoundError("Post", post_id)
+    return post
+
+async def list_posts_for_user(self, user_id: int) -> list[Post]:
+    if not await self._user_repository.exists(user_id):
+        raise NotFoundError("User", user_id)
+    return await self._repository.list_by_user_id(user_id)
+```
+
+Rule: if a method calls something that awaits, **it must be `async`** and callers must `await` it. Async spreads up the stack.
+
+---
+
+## Step 7 — Convert all routes to `async def`
+
+### API example — `routers/api/posts.py`
+
+```python
+@router.get("/", response_model=list[PostResponse], name="api.posts.index")
+async def index(
+    post_service: Annotated[PostService, Depends(get_post_service)],
+):
+    return await post_service.list_posts()
+
+
+@router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT, name="api.posts.delete")
+async def delete(
+    post_id: int,
+    post_service: Annotated[PostService, Depends(get_post_service)],
+):
+    await post_service.delete_post(post_id)
+```
+
+### Web example — `routers/web.py`
+
+```python
+@router.get("/", name="home.index")
+async def home(
+    request: Request,
+    post_service: Annotated[PostService, Depends(get_post_service)],
+):
+    return templates.TemplateResponse(
+        request=request,
+        name="home.html",
+        context={"posts": await post_service.list_posts()},
+    )
+```
+
+Do the same for every route in `routers/api/users.py` and `routers/web.py`.
+
+---
+
+## Step 8 — Async lifespan (create tables on startup)
+
+Sync `Base.metadata.create_all(bind=engine)` does not work on an async engine. Use lifespan + `run_sync`:
+
+```python
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Startup: create tables
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield
+    # Shutdown: close pool
+    await engine.dispose()
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(title=settings.app_name, lifespan=lifespan)
+    ...
+```
+
+| Hook | Action |
+|------|--------|
+| Before `yield` | App starting — create schema |
+| After `yield` | App stopping — `engine.dispose()` |
+| `run_sync(...)` | Run sync metadata API on async connection |
+
+---
+
+## Step 9 — Exception handlers (async where needed)
+
+Handlers that call FastAPI's built-in **async** helpers must themselves be `async`:
+
+```python
+@app.exception_handler(StarletteHTTPException)
+async def general_http_exception_handler(
+    request: Request,
+    exception: StarletteHTTPException,
+) -> Response | JSONResponse:
+    if _is_api_request(request):
+        return await http_exception_handler(request=request, exc=exception)
+    message = exception.detail or "An unexpected error occurred..."
+    return _error_page(request, exception.status_code, message)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(
+    request: Request,
+    exception: RequestValidationError,
+) -> JSONResponse:
+    if _is_api_request(request):
+        return await request_validation_exception_handler(
+            request=request, exc=exception
+        )
+    message = ", ".join(error["msg"] for error in exception.errors())
+    return _error_page(request, status.HTTP_422_UNPROCESSABLE_ENTITY, message)
+```
+
+Domain handlers (`NotFoundError`, `ConflictError`) can stay sync `def` if they only build responses — no `await` needed.
+
+---
+
+## Conversion checklist (sync → async)
+
+Work bottom-up so nothing calls an async function without `await`:
+
+1. [ ] Add `aiosqlite` + `greenlet`
+2. [ ] Change `DATABASE_URL` to `sqlite+aiosqlite://...`
+3. [ ] Rewrite `config/database.py` (async engine, session, `get_db`)
+4. [ ] Point `DbSession` at `AsyncSession`
+5. [ ] Repos: `AsyncSession`, `async def`, `await` all I/O; `selectinload`
+6. [ ] Services: `async def` + `await` repos
+7. [ ] Routes: `async def` + `await` services
+8. [ ] Lifespan: `create_all` via `run_sync`, `engine.dispose()`
+9. [ ] Exception handlers that await FastAPI helpers → `async def`
+10. [ ] Smoke-test CRUD + HTML pages under concurrent load
+
+---
+
+## Sync → async diff cheat sheet
+
+```python
+# Engine
+create_engine(...)              →  create_async_engine(...)
+sessionmaker(...)               →  async_sessionmaker(..., class_=AsyncSession)
+sqlite:///                      →  sqlite+aiosqlite:///
+
+# Session dependency
+def get_db():                   →  async def get_db():
+    with SessionLocal() as db:  →      async with AsyncSessionLocal() as session:
+        yield db                →          yield session
+
+# Queries
+db.scalars(q)                   →  await db.scalars(q)
+db.commit()                     →  await db.commit()
+db.refresh(obj)                 →  await db.refresh(obj)
+db.delete(obj)                  →  await db.delete(obj)
+
+# Eager load
+joinedload(Post.author)         →  selectinload(Post.author)
+
+# Routes / services
+def index(...):                 →  async def index(...):
+    return service.list()       →      return await service.list()
+```
+
+---
+
+## Decision guide (keep this)
+
+```
+Is the work mostly waiting on I/O (DB, HTTP, disk network)?
+  YES → async def + async libraries (this part)
+  NO  → is it CPU-heavy?
+          YES → sync def, or process/thread pool / worker queue
+          NO  → either works; pick clarity
+
+Do you have a sync-only library?
+  YES → sync route, OR await asyncio.to_thread(sync_fn)
+  NO  → prefer async stack if already async elsewhere
+
+Are you inside async def?
+  NEVER call blocking sync I/O without to_thread / executor
+```
+
+---
+
+## What we learned (Part 7)
+
+- **Sync** blocks a thread until I/O finishes; **async** yields the event loop with `await`
+- Async helps **I/O-bound** concurrency; not magic for **CPU-bound** work
+- Mixing: FastAPI runs sync `def` in a threadpool; `async def` must stay non-blocking
+- Wire async SQLAlchemy: `create_async_engine`, `AsyncSession`, `sqlite+aiosqlite`
+- Prefer **`selectinload`** for relationships under async (avoid lazy loads)
+- Convert bottom-up: DB → repos → services → routes
+- Use **lifespan** + `run_sync(create_all)` and `engine.dispose()`
+- Make exception handlers `async` when they `await` framework helpers
+
+---
+
 ## What's next (later parts)
 
 The full course continues with:
@@ -2311,11 +2827,12 @@ The full course continues with:
 - [FastAPI Full Course — Part 4 (YouTube)](https://youtu.be/9GHxnttXxrA?si=a0H4pr6UwjQeoKkm)
 - [FastAPI Full Course — Part 5 (YouTube)](https://youtu.be/NvOV3ig2tGY?si=SYpgR6_fNCHQy3Ba)
 - [FastAPI Full Course — Part 6 (YouTube)](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg)
-- [FastAPI documentation](https://fastapi.tiangolo.com/)
+- [FastAPI Full Course — Part 7 (YouTube)](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY)
+- [FastAPI — Concurrency and async / await](https://fastapi.tiangolo.com/async/)
 - [FastAPI — SQL Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
-- [FastAPI — Dependencies](https://fastapi.tiangolo.com/tutorial/dependencies/)
-- [FastAPI — Body Updates](https://fastapi.tiangolo.com/tutorial/body-updates/)
-- [SQLAlchemy 2.0 — Cascades](https://docs.sqlalchemy.org/en/20/orm/cascades.html)
+- [FastAPI — Lifespan Events](https://fastapi.tiangolo.com/advanced/events/)
+- [SQLAlchemy — Asynchronous I/O](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html)
+- [aiosqlite](https://aiosqlite.omnilib.dev/)
 - [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 - [Jinja2 documentation](https://jinja.palletsprojects.com/)
 - [Tailwind CSS documentation](https://tailwindcss.com/docs)
