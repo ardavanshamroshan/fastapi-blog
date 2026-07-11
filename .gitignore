@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+graphify-out/
+graphify-out/graph.html
+.idea/
+
 # Distribution / packaging
 .Python
 build/

@@ -11,36 +11,36 @@ router = APIRouter(include_in_schema=False)
 
 
 @router.get('/', name='home.index')
-def home(
+async def home(
     request: Request,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
     return templates.TemplateResponse(
         request=request,
         name='home.html',
-        context={'posts': post_service.list_posts()},
+        context={'posts': await post_service.list_posts()},
     )
 
 
 @router.get('/posts', name='posts.index')
-def index(
+async def index(
     request: Request,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
     return templates.TemplateResponse(
         request=request,
         name='posts/index.html',
-        context={'posts': post_service.list_posts()},
+        context={'posts': await post_service.list_posts()},
     )
 
 
 @router.get('/posts/{post_id}', name='posts.show')
-def show(
+async def show(
     request: Request,
     post_id: int,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    post = post_service.get_post(post_id)
+    post = await post_service.get_post(post_id)
     return templates.TemplateResponse(
         request=request,
         name='posts/show.html',
@@ -49,14 +49,14 @@ def show(
 
 
 @router.get('/users/{user_id}/posts', name='users.posts.index')
-def user_posts(
+async def user_posts(
     request: Request,
     user_id: int,
     post_service: Annotated[PostService, Depends(get_post_service)],
     user_service: Annotated[UserService, Depends(get_user_service)],
 ):
-    author = user_service.get_user(user_id)
-    posts = post_service.list_posts_for_user(user_id)
+    author = await user_service.get_user(user_id)
+    posts = await post_service.list_posts_for_user(user_id)
 
     return templates.TemplateResponse(
         request=request,

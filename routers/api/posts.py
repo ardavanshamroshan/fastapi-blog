@@ -10,18 +10,18 @@ router = APIRouter(prefix='/api/posts', tags=['posts'])
 
 
 @router.get(path='/', response_model=list[PostResponse], name='api.posts.index')
-def index(
+async def index(
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    return post_service.list_posts()
+    return await post_service.list_posts()
 
 
 @router.get(path='/{post_id}', response_model=PostResponse, name='api.posts.show')
-def show(
+async def show(
     post_id: int,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    return post_service.get_post(post_id)
+    return await post_service.get_post(post_id)
 
 
 @router.post(
@@ -30,45 +30,46 @@ def show(
     status_code=status.HTTP_201_CREATED,
     name='api.posts.store',
 )
-def store(
+async def store(
     post: PostCreate,
     post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    return post_service.create_post(post)
+    return await post_service.create_post(post)
 
 
 @router.put(
     path='/{post_id}',
     response_model=PostResponse,
-    name='api.posts.update'
+    name='api.posts.update',
 )
-def update(
+async def update(
     post_id: int,
     post: PostUpdate,
-    post_service: Annotated[PostService, Depends(get_post_service)]
+    post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    return post_service.update_post(post_id, post)
+    return await post_service.update_post(post_id, post)
 
 
 @router.patch(
     path='/partial/{post_id}',
     response_model=PostResponse,
-    name='api.posts.update.partial'
+    name='api.posts.update.partial',
 )
-def update_partial(
+async def update_partial(
     post_id: int,
     post: PostUpdate,
-    post_service: Annotated[PostService, Depends(get_post_service)]
+    post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    return post_service.update_post_partial(post_id, post)
+    return await post_service.update_post_partial(post_id, post)
+
 
 @router.delete(
     path='/{post_id}',
     status_code=status.HTTP_204_NO_CONTENT,
-    name='api.posts.delete'
+    name='api.posts.delete',
 )
-def delete(
+async def delete(
     post_id: int,
-    post_service: Annotated[PostService, Depends(get_post_service)]
+    post_service: Annotated[PostService, Depends(get_post_service)],
 ):
-    return post_service.delete_post(post_id)
+    await post_service.delete_post(post_id)
