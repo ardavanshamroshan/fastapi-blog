@@ -12,6 +12,7 @@ A minimal blog API with styled HTML pages, built while following the [FastAPI Fu
 | 6 | [Part 6](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg) | PUT / PATCH / DELETE, partial updates, cascade delete |
 | 7 | [Part 7](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY) | Sync vs async, async SQLAlchemy, aiosqlite, await everywhere |
 | 8 | [Part 8](https://youtu.be/NkgIHa6KtHg?si=PiDtpeWly1twPCP7) | `APIRouter`, split routes into modules, `include_router` |
+| 9 | [Part 9](https://youtu.be/vqjZOyT4QRs?si=1cDeYpf-DUCGQEoa) | Interactive frontend, Fetch API, modal forms, create/edit/delete in browser |
 
 ---
 
@@ -3081,6 +3082,340 @@ Each router file:
 
 ---
 
+---
+
+# Part 9 — Interactive Frontend with the Fetch API
+
+**Goals:** make the read-only pages interactive. Use JavaScript + the Fetch API to **create**, **edit**, and **delete** posts straight from the browser. Show forms in modals, give feedback with toasts, and keep the user on the same page — no full reloads.
+
+Video: [FastAPI Full Course — Part 9](https://youtu.be/vqjZOyT4QRs?si=1cDeYpf-DUCGQEoa)
+
+> **Stack note:** the video uses **Bootstrap** modals. This project uses **Tailwind + Alpine.js** modals and a custom toast store. Same idea — a form in a modal that calls the JSON API with `fetch`. Code below matches *this* project.
+
+---
+
+## The concept
+
+Until now web pages only **read** data (server renders HTML). Part 9 adds **writes** from the browser:
+
+```
+Browser form  ──fetch(POST/PUT/DELETE)──►  /api/posts...  ──►  DB
+      ▲                                                          │
+      └──────────  JSON response + toast  ◄──────────────────────┘
+      (stay on page, update UI)
+```
+
+Two APIs already exist (Parts 4–6):
+
+| Action | Method | Endpoint |
+|--------|--------|----------|
+| Create | POST | `/api/posts/` |
+| Edit (full) | PUT | `/api/posts/{id}` |
+| Edit (partial) | PATCH | `/api/posts/partial/{id}` |
+| Delete | DELETE | `/api/posts/{id}` |
+
+Part 9 is **frontend only** — no new backend routes. JS talks to those endpoints.
+
+---
+
+## Fetch API basics
+
+`fetch()` returns a Promise. Send JSON, read JSON back:
+
+```js
+const res = await fetch("/api/posts/", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ title, content, user_id: 1 }),
+});
+
+if (!res.ok) {
+  const err = await res.json();
+  throw new Error(err.detail ?? "Request failed");
+}
+
+const post = await res.json();   // PostResponse
+```
+
+| Piece | Why |
+|-------|-----|
+| `method` | POST / PUT / PATCH / DELETE |
+| `headers` Content-Type | Tell FastAPI the body is JSON |
+| `JSON.stringify(...)` | Serialize the form data |
+| `res.ok` | `false` for 4xx/5xx — handle errors |
+| `res.json()` | Parse response (or `err.detail` on error) |
+| DELETE → 204 | No body — do **not** call `res.json()` |
+
+---
+
+## Current UI building blocks (already in project)
+
+| File | Role |
+|------|------|
+| `templates/posts/index.html` | "Add post" button → `post_modal` |
+| `templates/posts/show.html` | Edit / Delete buttons → `post_modal` + `confirm_modal` |
+| `templates/components/post_modal.html` | `post_modal()` + `confirm_modal()` macros |
+| `static/js/alpine.min.js` | Alpine.js — modal open/close state |
+| `static/js/toast.js` | Toast store + `window.notify(...)` |
+| `templates/layouts/base.html` | Toast container + script includes |
+
+Modals open with Alpine state (`x-data="{ open: false }"`, `@click="open = true"`). Toasts fire via `notify('message', 'success')`.
+
+---
+
+## Step 1 — Modal markup (recap)
+
+`post_modal` renders a form with title + content inputs. `confirm_modal` renders a delete confirmation. Both are Jinja macros so add/edit/delete reuse one definition:
+
+```jinja
+{% from "components/post_modal.html" import post_modal, confirm_modal %}
+
+{{ post_modal(
+  state="open", heading="Add post", submit_label="Publish",
+  submit_message="Post created successfully", dom_id="add-post"
+) }}
+```
+
+Alpine controls visibility; the `<form>` inside is where Fetch gets wired.
+
+---
+
+## Step 2 — From placeholder to real Fetch
+
+The starter form only closes + toasts:
+
+```html
+<!-- placeholder: no API call -->
+<form @submit.prevent="open = false; notify('Post created successfully', 'success')">
+```
+
+Replace with a real request. Give the form an Alpine component and a submit handler:
+
+```html
+<form
+  x-data="postForm({ mode: 'create', postId: null })"
+  @submit.prevent="submit()"
+>
+  <input x-model="title" class="input" required />
+  <textarea x-model="content" class="input" required></textarea>
+
+  <button type="button" class="btn btn-outline" @click="open = false">Cancel</button>
+  <button type="submit" class="btn btn-default" :disabled="loading">
+    <span x-text="loading ? 'Saving...' : submitLabel"></span>
+  </button>
+</form>
+```
+
+---
+
+## Step 3 — The Fetch component (`static/js/posts.js`)
+
+Add a new JS file with the create/edit/delete logic:
+
+```js
+function postForm({ mode, postId, title = "", content = "", userId = 1 }) {
+  return {
+    mode,
+    postId,
+    title,
+    content,
+    userId,
+    loading: false,
+    submitLabel: mode === "create" ? "Publish" : "Save changes",
+
+    async submit() {
+      this.loading = true;
+      try {
+        const isCreate = this.mode === "create";
+        const url = isCreate ? "/api/posts/" : `/api/posts/${this.postId}`;
+        const method = isCreate ? "POST" : "PUT";
+
+        const res = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: this.title,
+            content: this.content,
+            user_id: this.userId,
+          }),
+        });
+
+        if (!res.ok) {
+          const err = await res.json();
+          const detail = Array.isArray(err.detail)
+            ? err.detail.map((e) => e.msg).join(", ")
+            : err.detail;
+          throw new Error(detail || "Request failed");
+        }
+
+        const post = await res.json();
+        notify(
+          isCreate ? "Post created successfully" : "Post updated successfully",
+          "success"
+        );
+        // stay on page: redirect to the post, or refresh the list
+        window.location = isCreate ? `/posts/${post.id}` : window.location.href;
+      } catch (e) {
+        notify(e.message, "error");
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async remove() {
+      this.loading = true;
+      try {
+        const res = await fetch(`/api/posts/${this.postId}`, { method: "DELETE" });
+        if (!res.ok && res.status !== 204) {
+          const err = await res.json();
+          throw new Error(err.detail || "Delete failed");
+        }
+        notify("Post deleted successfully", "success");
+        window.location = "/posts";
+      } catch (e) {
+        notify(e.message, "error");
+      } finally {
+        this.loading = false;
+      }
+    },
+  };
+}
+```
+
+Register the script in `base.html` (before Alpine so the function exists on init, or use `alpine:init`):
+
+```html
+<script src="{{ url_for('static', path='js/posts.js') }}"></script>
+<script defer src="{{ url_for('static', path='js/alpine.min.js') }}"></script>
+```
+
+---
+
+## Step 4 — Wire create (index page)
+
+`templates/posts/index.html` — the "Add post" modal form uses `mode: 'create'`:
+
+```html
+<form x-data="postForm({ mode: 'create' })" @submit.prevent="submit()">
+  ...
+</form>
+```
+
+Submitting POSTs to `/api/posts/`, toasts success, and navigates to the new post.
+
+---
+
+## Step 5 — Wire edit (show page)
+
+`templates/posts/show.html` — the edit modal preloads current values and uses `mode: 'edit'`:
+
+```html
+<form
+  x-data="postForm({
+    mode: 'edit',
+    postId: {{ post.id }},
+    title: {{ post.title | tojson }},
+    content: {{ post.content | tojson }},
+    userId: {{ post.user_id }}
+  })"
+  @submit.prevent="submit()"
+>
+  ...
+</form>
+```
+
+`| tojson` safely escapes server values into JS strings. Submitting PUTs to `/api/posts/{id}`.
+
+**PUT vs PATCH:** PUT sends all fields (needs `user_id` for the ownership check from Part 6). For "change only title", call PATCH `/api/posts/partial/{id}` with just the changed keys.
+
+---
+
+## Step 6 — Wire delete (confirm modal)
+
+`confirm_modal` button calls `remove()` instead of just toasting:
+
+```html
+<button
+  type="button"
+  class="btn btn-destructive"
+  x-data="postForm({ mode: 'edit', postId: {{ post.id }} })"
+  @click="remove()"
+>
+  Delete
+</button>
+```
+
+DELETE returns **204** — the handler checks `res.status !== 204` before reading a body, then redirects to `/posts`.
+
+---
+
+## Step 7 — Error handling and UX
+
+| Concern | Handling |
+|---------|----------|
+| Validation error (422) | `err.detail` is a list → join `e.msg` into one toast |
+| Not found (404) / forbidden (403) | Show `err.detail` string as error toast |
+| Network failure | `try/catch` → error toast |
+| Double submit | `loading` flag disables the button |
+| Keep user on page | No `<form action>`; `@submit.prevent` + `fetch` |
+| Feedback | `notify(msg, 'success' | 'error')` toast store |
+
+---
+
+## Request lifecycle (create post)
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant M as Modal form (Alpine)
+    participant JS as fetch (posts.js)
+    participant API as /api/posts (FastAPI)
+    participant DB as SQLite
+
+    U->>M: Click "Add post", fill fields, Submit
+    M->>JS: submit() (@submit.prevent)
+    JS->>API: POST JSON {title, content, user_id}
+    API->>DB: INSERT post
+    DB-->>API: new row
+    API-->>JS: 201 PostResponse
+    JS->>U: notify success + redirect to /posts/{id}
+    Note over JS,U: On error → notify(err.detail, 'error'), stay open
+```
+
+---
+
+## Files touched (Part 9)
+
+```
+static/js/
+├── posts.js        # NEW: postForm() create/edit/delete via fetch
+├── toast.js        # existing: notify() feedback
+└── alpine.min.js   # existing: modal state
+
+templates/
+├── posts/index.html            # Add-post modal → mode:'create'
+├── posts/show.html             # Edit + Delete modals → mode:'edit'
+├── components/post_modal.html  # form wired to submit()/remove()
+└── layouts/base.html           # include posts.js
+```
+
+No backend changes — reuses Part 4–6 API.
+
+---
+
+## What we learned (Part 9)
+
+- Turn read-only pages into interactive ones with the **Fetch API**
+- Send JSON with `method`, `Content-Type`, `JSON.stringify`
+- Reuse existing **POST / PUT / PATCH / DELETE** endpoints from the browser
+- Show forms in **modals** and feedback with **toasts** — no page navigation
+- Handle **422 / 404 / 403** responses via `res.ok` + `err.detail`
+- Guard against double submit with a `loading` flag
+- `DELETE` returns **204** — skip `res.json()`
+- Escape server data into JS with Jinja **`| tojson`**
+
+---
+
 ## What's next (later parts)
 
 The full course continues with:
@@ -3102,12 +3437,11 @@ The full course continues with:
 - [FastAPI Full Course — Part 6 (YouTube)](https://youtu.be/VyoGAoxQhxM?si=9gPDm9_53fXVvLQg)
 - [FastAPI Full Course — Part 7 (YouTube)](https://youtu.be/2JPDt-Jp6fM?si=4OlTPXFiG1TvSDqY)
 - [FastAPI Full Course — Part 8 (YouTube)](https://youtu.be/NkgIHa6KtHg?si=PiDtpeWly1twPCP7)
+- [FastAPI Full Course — Part 9 (YouTube)](https://youtu.be/vqjZOyT4QRs?si=1cDeYpf-DUCGQEoa)
+- [MDN — Using the Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+- [Alpine.js documentation](https://alpinejs.dev/)
 - [FastAPI — Bigger Applications / Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/)
-- [FastAPI — Concurrency and async / await](https://fastapi.tiangolo.com/async/)
 - [FastAPI — SQL Databases](https://fastapi.tiangolo.com/tutorial/sql-databases/)
-- [FastAPI — Lifespan Events](https://fastapi.tiangolo.com/advanced/events/)
 - [SQLAlchemy — Asynchronous I/O](https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html)
-- [aiosqlite](https://aiosqlite.omnilib.dev/)
-- [Pydantic Settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/)
 - [Jinja2 documentation](https://jinja.palletsprojects.com/)
 - [Tailwind CSS documentation](https://tailwindcss.com/docs)
