@@ -4,6 +4,27 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@keyframes toast-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes toast-pop {
+  0% {
+    transform: scale(0);
+  }
+  60% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* shadcn zinc tokens */
 :root {
   --background: oklch(1 0 0);
@@ -82,6 +103,10 @@
     @apply border-border;
   }
 
+  [x-cloak] {
+    display: none !important;
+  }
+
   html {
     @apply antialiased;
   }
@@ -116,6 +141,10 @@
     @apply border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground;
   }
 
+  .btn-destructive {
+    @apply bg-red-500 text-white shadow-sm hover:bg-red-600;
+  }
+
   .btn-secondary {
     @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
   }
@@ -130,6 +159,77 @@
 
   .btn-icon {
     @apply size-9 p-0;
+  }
+
+  /* form input */
+  .input {
+    @apply block w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm transition-colors;
+    @apply placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  input.input {
+    @apply h-9;
+  }
+
+  textarea.input {
+    @apply min-h-24 resize-y leading-relaxed;
+  }
+
+  .form-label {
+    @apply block text-sm font-medium;
+  }
+
+  /* toast notification */
+  .toast {
+    @apply relative flex items-start gap-3 overflow-hidden rounded-lg border bg-card p-3 pb-4 text-card-foreground shadow-lg;
+  }
+
+  .toast-icon {
+    @apply flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white;
+  }
+
+  .toast-icon-animate {
+    animation: toast-pop 0.4s ease-out both;
+  }
+
+  .toast-progress {
+    @apply absolute inset-x-0 bottom-0 h-1 origin-left bg-current opacity-40;
+    animation: toast-shrink linear forwards;
+  }
+  .toast-success .toast-progress {
+    @apply text-green-500;
+  }
+  .toast-error .toast-progress {
+    @apply text-red-500;
+  }
+  .toast-info .toast-progress {
+    @apply text-blue-500;
+  }
+
+  .toast-close {
+    @apply -m-1 shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:text-foreground;
+  }
+
+  .toast-success {
+    @apply border-l-4 border-l-green-500;
+  }
+  .toast-success .toast-icon {
+    @apply bg-green-500;
+  }
+
+  .toast-error {
+    @apply border-l-4 border-l-red-500;
+  }
+  .toast-error .toast-icon {
+    @apply bg-red-500;
+  }
+
+  .toast-info {
+    @apply border-l-4 border-l-blue-500;
+  }
+  .toast-info .toast-icon {
+    @apply bg-blue-500;
   }
 
   /* shadcn Card */

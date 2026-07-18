@@ -256,6 +256,14 @@
                 </li>
                 <li>
                   <a
+                    href="{{ url_for('posts.index') }}"
+                    class="flex items-center rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+                  >
+                    Latest posts
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="#"
                     class="flex items-center rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
@@ -296,9 +304,56 @@
       </div>
     </footer>
 
+    <div
+      x-data
+      class="pointer-events-none fixed left-4 top-4 z-[100] flex w-full max-w-xs flex-col gap-2"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <template x-for="toast in $store.toasts.items" :key="toast.id">
+        <div
+          class="toast pointer-events-auto"
+          :class="{
+            'toast-success': toast.type === 'success',
+            'toast-error': toast.type === 'error',
+            'toast-info': toast.type === 'info',
+          }"
+          role="status"
+          x-transition:enter="transition transform ease-[cubic-bezier(0.34,1.56,0.64,1)] duration-500"
+          x-transition:enter-start="-translate-x-8 scale-90 opacity-0"
+          x-transition:enter-end="translate-x-0 scale-100 opacity-100"
+          x-transition:leave="transition ease-in duration-200"
+          x-transition:leave-start="translate-x-0 scale-100 opacity-100"
+          x-transition:leave-end="translate-x-8 scale-90 opacity-0"
+        >
+          <span class="toast-icon toast-icon-animate" x-html="{
+            success: '&#10003;',
+            error: '&#10005;',
+            info: '&#105;',
+          }[toast.type] || '&#10003;'"></span>
+          <p class="flex-1 text-sm" x-text="toast.message"></p>
+          <button
+            type="button"
+            class="toast-close"
+            @click="$store.toasts.remove(toast.id)"
+            aria-label="Dismiss"
+          >
+            &#10005;
+          </button>
+          <div
+            class="toast-progress"
+            x-show="toast.timeout"
+            :style="`animation-duration: ${toast.timeout}ms`"
+          ></div>
+        </div>
+      </template>
+    </div>
+
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
+    <script src="{{ url_for('static', path='js/toast.js') }}"></script>
+    <script defer src="{{ url_for('static', path='js/alpine.min.js') }}"></script>
     <script src="{{ url_for('static', path='js/utils.js') }}"></script>
   </body>
 </html>
